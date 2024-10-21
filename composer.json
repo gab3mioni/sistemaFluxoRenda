@@ -1,0 +1,19 @@
+{
+    "name": "gab3mioni/sistema-fluxorenda",
+    "type": "project",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/",
+            "Core\\": "core/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Gabriel Mioni",
+            "email": "gabrielmionibastos@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {}
+}
