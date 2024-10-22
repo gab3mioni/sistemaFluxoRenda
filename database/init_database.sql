@@ -12,6 +12,7 @@ CREATE TABLE IF NOT EXISTS governo (
 CREATE TABLE IF NOT EXISTS empresas (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nome VARCHAR(255) NOT NULL,
+    cnpj VARCHAR(14) NOT NULL,
     receita DECIMAL(15, 2),
     despesa DECIMAL(15, 2),
     investimento DECIMAL(15, 2),
@@ -23,6 +24,7 @@ CREATE TABLE IF NOT EXISTS empresas (
 CREATE TABLE IF NOT EXISTS familias (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nome VARCHAR(255) NOT NULL,
+    cpf VARCHR(11) NOT NULL,
     renda DECIMAL(15, 2),
     consumo DECIMAL(15, 2),
     investimento DECIMAL(15, 2),
