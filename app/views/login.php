@@ -6,7 +6,6 @@
     <title>Login</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link href="assets/css/login/login.css" rel="stylesheet">
-
    
 </head>
 <body>
@@ -14,10 +13,16 @@
     <div class="login-container">
         <h2 class="text-center">Login</h2>
 
-        <form action="/login" method="POST">
+        <?php if (isset($errorMessage)) : ?>
+            <div class="alert alert-danger text-center">
+                <?php echo htmlspecialchars($errorMessage, ENT_QUOTES, 'UTF-8'); ?>
+            </div>
+        <?php endif; ?>
+
+        <form action="login/authenticate" method="POST">
             <div class="mb-3">
-                <label for="email" class="form-label">E-mail:</label>
-                <input type="email" id="email" name="email" class="form-control" required>
+                <label for="user" class="form-label">Usuário:</label>
+                <input type="text" id="user" name="user" class="form-control" required>
             </div>
             <div class="mb-3">
                 <label for="senha" class="form-label">Senha:</label>
