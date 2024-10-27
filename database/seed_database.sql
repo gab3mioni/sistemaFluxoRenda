@@ -1,17 +1,8 @@
 USE sistemaFluxoRenda;
 
-INSERT INTO governo (tipo_transacao, descricao, valor)
+INSERT INTO governo (usuario, senha)
 VALUES
-    ('imposto', 'Imposto de Renda', 5000.00),
-    ('imposto', 'IPTU', 1200.50),
-    ('beneficio', 'Auxílio Emergencial', 600.00),
-    ('beneficio', 'Seguro-Desemprego', 1200.00),
-    ('imposto', 'Imposto de Importação', 3000.75),
-    ('imposto', 'Contribuição Social', 450.80),
-    ('beneficio', 'Aposentadoria', 1500.00),
-    ('imposto', 'ISS', 900.40),
-    ('beneficio', 'Bolsa Família', 350.00),
-    ('imposto', 'ICMS', 700.00);
+    ('admin_governo', 'senha123'),
 
 INSERT INTO empresas (nome, cnpj, receita, despesa, investimento, imposto, beneficio_governo)
 VALUES
