@@ -4,15 +4,13 @@ USE sistemaFluxoRenda;
 CREATE TABLE IF NOT EXISTS governo (
     id INT AUTO_INCREMENT PRIMARY KEY,
     usuario VARCHAR(255) NOT NULL,
-    tipo_transacao ENUM('imposto', 'beneficio') NOT NULL,
-    descricao VARCHAR(255),
-    valor DECIMAL(15, 2) NOT NULL,
-    data_transacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    senha VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS empresas (
     id INT AUTO_INCREMENT PRIMARY KEY,
     usuario VARCHAR(255) NOT NULL,
+    senha VARCHAR(255) NOT NULL,
     nome VARCHAR(255) NOT NULL,
     cnpj VARCHAR(14) NOT NULL,
     receita DECIMAL(15, 2),
@@ -26,6 +24,7 @@ CREATE TABLE IF NOT EXISTS empresas (
 CREATE TABLE IF NOT EXISTS familias (
     id INT AUTO_INCREMENT PRIMARY KEY,
     usuario VARCHAR(255) NOT NULL,
+    senha VARCHAR(255) NOT NULL,
     nome VARCHAR(255) NOT NULL,
     cpf VARCHAR(11) NOT NULL,
     renda DECIMAL(15, 2),
