@@ -35,7 +35,7 @@ class LoginController extends Controller
                 break;
             default:
                 $errorMessage = "Tipo de login inválido";
-                include __DIR__ . '../views/login.php';
+                include __DIR__ . '/../views/login.php';
         }
     }
 
@@ -61,7 +61,6 @@ class LoginController extends Controller
                         $_SESSION['usuario'] = [];
                         $_SESSION['usuario']['tipo'] = 'governo';
                     }
-
 
                     header('Location: ' . $this->base_url('dashboardGoverno')); // Redireciona para a view dashboardGoverno.php
                     exit;
