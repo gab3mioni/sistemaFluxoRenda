@@ -42,7 +42,12 @@ Siga os passos abaixo para configurar o ambiente de desenvolvimento:
    -- Execute as instruções contidas no arquivo init_database.sql
    ```
 
-6. Inicie o WampServer ou XAMPP e acesse o projeto pelo navegador:
+6. Execute o arquivo `seed_database.sql` para semear o banco de dados com dados fictícios:
+   ```sql
+   -- Execute as instruções contidas no arquivo seed_database.sql
+   ```
+
+7. Inicie o WampServer ou XAMPP e acesse o projeto pelo navegador:
    ```
    http://localhost/sistemaFluxoRenda/public
    ```
