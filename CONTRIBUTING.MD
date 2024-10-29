@@ -8,7 +8,8 @@
     - [Submetendo um Pull Request](#submetendo-um-pull-request)
 3. [Estilo de Código](#estilo-de-código)
 4. [Reportando Bugs](#reportando-bugs)
-5. [Dicas Gerais](#dicas-gerais)
+5. [Commits](#commits)
+6. [Dicas Gerais](#dicas-gerais)
 
 ---
 
@@ -150,6 +151,56 @@ Se encontrar um bug, siga as instruções abaixo para reportá-lo:
 **Resultado esperado**: O sistema deveria logar o usuário.
 **Resultado atual**: Nada acontece ao clicar no botão.
 ```
+
+---
+
+## Commits
+
+Ao realizar commits no projeto, siga as diretrizes abaixo para manter o histórico de alterações limpo, rastreável e compreensível para todos os colaboradores:
+
+1. **Commits Pequenos e Objetivos**
+   - Faça commits pequenos e frequentes, focados em uma única tarefa ou alteração. Isso facilita a revisão e a rastreabilidade do código.
+
+2. **Padrão de Mensagens de Commit**
+   - Siga o padrão `[tipo]: descrição`, usando verbos no imperativo para descrever a ação do commit. Utilize os tipos abaixo para cada situação:
+      - **feat**: quando adicionar uma nova funcionalidade (ex: `feature: adicionando tela de login`)
+      - **fix**: para correções de bugs (ex: `fix: ajustando validação do login`)
+      - **refactor**: para refatorações sem alterar a funcionalidade (ex: `refactor: otimizando profile controller`)
+      - **docs**: para atualizações na documentação (ex: `docs: atualizando exemplos de utilização da API`)
+      - **style**: para alterações de formatação e estilo (ex: `style: aplicando estilo na tela de login`)
+      - **test**: ao adicionar ou modificar testes (ex: `test: adicionando testes para validação do login`)
+      - **chore**: para tarefas de manutenção ou configurações (ex: `chore: atualizando dependências`)
+
+3. **Escreva Mensagens de Commit Claras**
+   - No título (primeira linha) do commit, descreva a alteração em até 50 caracteres.
+   - Se precisar de mais detalhes, deixe uma linha em branco e adicione uma descrição mais completa. Exemplo:
+     ```plaintext
+     feat: adicionando autenticação do usuário
+
+     Implementado funcionalidade de login e logout do usuário, incluindo gerenciamento de 
+     sessão. Esta atualização também inclui validação de formulário no front end.
+     ```
+
+4. **Estrutura de Commit**
+   - Realize cada commit no contexto de uma branch específica. Use o formato `feature/nome-da-feature` ou `bugfix/nome-do-bug` para as branches, garantindo que cada commit reflita a tarefa da branch.
+
+5. **Sincronize o Código com a Branch de Origem**
+   - Antes de realizar commits, sincronize sua branch com a `develop`:
+     ```bash
+     git checkout develop
+     git pull origin develop
+     git checkout feature/nome-da-feature
+     git rebase develop
+     ```
+
+6. **Commits para Testes e Debug**
+   - Evite subir commits temporários de testes ou depuração. Use commits finais e organizados para melhorar a legibilidade e o histórico do projeto.
+
+7. **Checklist de Commits Antes do PR**
+   - Verifique antes de abrir o Pull Request:
+      - [ ] O commit foi testado localmente.
+      - [ ] A mensagem de commit segue o padrão.
+      - [ ] O commit está relacionado apenas à funcionalidade descrita na branch.
 
 ---
 
