@@ -154,7 +154,6 @@
                     <th>Data</th>
                     <th>Tipo</th>
                     <th>Valor (R$)</th>
-                    <th>Empresa</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -164,7 +163,6 @@
                             <td><?= date('d/m/Y H:i', strtotime($transacao['data_transacao'])) ?></td>
                             <td><?= ucfirst($transacao['tipo_transacao']) ?></td>
                             <td><?= number_format($transacao['valor'], 2, ',', '.') ?></td>
-                            <td><?= htmlspecialchars($transacao['id_empresa']) ?></td>
                         </tr>
                     <?php endforeach; ?>
                 <?php else: ?>
