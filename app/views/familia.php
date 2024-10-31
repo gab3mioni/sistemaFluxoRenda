@@ -8,14 +8,6 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-dark bg-custom-primary">
-    <div class="container">
-        <a class="navbar-brand" href="#">
-            <i class="bi bi-currency-exchange me-2"></i>
-        </a>
-    </div>
-</nav>
-
 <div class="container py-4">
 
     <div class="row mb-4">
