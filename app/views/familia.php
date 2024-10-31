@@ -23,8 +23,31 @@
             <div class="card bg-white">
                 <div class="card-body text-center">
                     <h3 class="card-title">Saldo Atual</h3>
-                    <h2 class="display-4" id="currentBalance">R$ 1.000,00</h2>
+                    <p class="display-5">R$ <?= number_format($saldo, 2, ',', '.') ?></p>
                 </div>
+
+                <div class="row">
+                    <div class="col-md-3">
+                        <h4 class="card-title">Renda</h4>
+                        <p>R$ <?= number_format($renda, 2, ',', '.') ?></p>
+                    </div>
+
+                    <div class="col-md-3">
+                        <h4 class="card-title">Consumo</h4>
+                        <p>R$ <?= number_format($consumo, 2, ',', '.') ?></p>
+                    </div>
+
+                    <div class="col-md-3">
+                        <h4 class="card-title">Investimentos</h4>
+                        <p>R$ <?= number_format($investimento, 2, ',', '.') ?></p>
+                    </div>
+
+                    <div class="col-md-3">
+                        <h4 class="card-title">Benefícios</h4>
+                        <p>R$ <?= number_format($beneficio, 2, ',', '.') ?></p>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>
@@ -40,23 +63,16 @@
                     </h5>
                 </div>
                 <div class="card-body">
-                    <form id="transactionForm">
+                    <form method="POST" action="familia/newTransacao">
                         <div class="mb-3">
-                            <label class="form-label">Para qual grupo você irá transferir?</label>
-                            <select class="form-select" id="transactionType" required>
-                                <option value="familia">Família</option>
-                                <option value="empresa">Empresa</option>
-                            </select>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Qual o nome da família/empresa?</label>
-                            <input type="text" class="form-control" required>
+                            <label class="form-label">Qual o ID da empresa que você irá transferir?</label>
+                            <input type="number" name="id" class="form-control" required>
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Valor</label>
                             <div class="input-group">
                                 <span class="input-group-text">R$</span>
-                                <input type="number" class="form-control" id="transactionAmount" step="0.01" required>
+                                <input type="number" name="valor" class="form-control"required>
                             </div>
                         </div>
                         <button type="submit" class="btn btn-primary w-100">
