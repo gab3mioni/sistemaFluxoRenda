@@ -63,6 +63,19 @@ class FamiliaModel
         return $query->fetchColumn();
     }
 
+    public function getHistoricoTransacoes(int $id_familia): array
+    {
+        $query = $this->pdo->prepare("SELECT id, id_empresa, valor, tipo_transacao, data_transacao
+        FROM transacao_familia_empresa
+        WHERE id_familia = :id_familia
+        ORDER BY data_transacao DESC
+    ");
+        $query->bindParam(":id_familia", $id_familia);
+        $query->execute();
+
+        return $query->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     public function setTransacao(int $id_empresa, float $valor, string $tipo_transacao): bool
     {
         try {

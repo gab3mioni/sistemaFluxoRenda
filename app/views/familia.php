@@ -72,7 +72,7 @@
                             <label class="form-label">Valor</label>
                             <div class="input-group">
                                 <span class="input-group-text">R$</span>
-                                <input type="number" name="valor" class="form-control"required>
+                                <input type="number" name="valor" class="form-control" required>
                             </div>
                         </div>
                         <button type="submit" class="btn btn-primary w-100">
@@ -154,21 +154,37 @@
         </div>
     </div>
 
-    <div class="row mt-4">
-        <div class="col-12">
-            <div class="card">
-                <div class="card-header bg-secondary text-white">
-                    <h5 class="card-title mb-0">
-                        <i class="bi bi-clock-history me-2"></i>
-                        Histórico de Transações
-                    </h5>
-                </div>
-                <div class="card-body">
-                    <div id="transactionHistory" class="transaction-list">
-
-                    </div>
-                </div>
-            </div>
+    <div class="card bg-light mb-4">
+        <div class="card-header">
+            <h4>Histórico de Transações</h4>
+        </div>
+        <div class="card-body">
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th>Data</th>
+                    <th>Tipo</th>
+                    <th>Valor (R$)</th>
+                    <th>Empresa</th>
+                </tr>
+                </thead>
+                <tbody>
+                <?php if (!empty($historicoTransacoes)): ?>
+                    <?php foreach ($historicoTransacoes as $transacao): ?>
+                        <tr>
+                            <td><?= date('d/m/Y H:i', strtotime($transacao['data_transacao'])) ?></td>
+                            <td><?= ucfirst($transacao['tipo_transacao']) ?></td>
+                            <td><?= number_format($transacao['valor'], 2, ',', '.') ?></td>
+                            <td><?= htmlspecialchars($transacao['id_empresa']) ?></td>
+                        </tr>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <tr>
+                        <td colspan="4" class="text-center">Nenhuma transação encontrada.</td>
+                    </tr>
+                <?php endif; ?>
+                </tbody>
+            </table>
         </div>
     </div>
 </div>

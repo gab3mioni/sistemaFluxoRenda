@@ -26,8 +26,16 @@ class FamiliaController extends Controller
         $consumo = $this->familiaModel->getConsumo();
         $investimento = $this->familiaModel->getInvestimento();
         $beneficio = $this->familiaModel->getBeneficio();
+        $historicoTransacoes = $this->familiaModel->getHistoricoTransacoes($id);
 
-        $this->view('familia', ['saldo' => $saldo, 'renda' => $renda, 'consumo' => $consumo, 'investimento' => $investimento, 'beneficio' => $beneficio]);
+        $this->view('familia', [
+            'saldo' => $saldo,
+            'renda' => $renda,
+            'consumo' => $consumo,
+            'investimento' => $investimento,
+            'beneficio' => $beneficio,
+            'historicoTransacoes' => $historicoTransacoes
+        ]);
     }
 
     public function newTransacao(): void
