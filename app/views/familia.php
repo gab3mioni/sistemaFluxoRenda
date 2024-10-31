@@ -46,7 +46,7 @@
 
     <div class="row g-4">
 
-        <div class="col-md-4">
+        <div class="col-md-6">
             <div class="card h-100">
                 <div class="card-header bg-primary text-white">
                     <h5 class="card-title mb-0">
@@ -76,7 +76,7 @@
             </div>
         </div>
 
-        <div class="col-md-4">
+        <div class="col-md-6">
             <div class="card h-100">
                 <div class="card-header bg-success text-white">
                     <h5 class="card-title mb-0">
@@ -109,38 +109,6 @@
             </div>
         </div>
 
-        <div class="col-md-4">
-            <div class="card h-100">
-                <div class="card-header bg-info text-white">
-                    <h5 class="card-title mb-0">
-                        <i class="bi bi-gift me-2"></i>
-                        Solicitar Benefício
-                    </h5>
-                </div>
-                <div class="card-body">
-                    <form id="benefitForm">
-                        <div class="mb-3">
-                            <label class="form-label">Tipo de Benefício</label>
-                            <select class="form-select" id="benefitType" required>
-                                <option value="BF">Bolsa Família</option>
-                            </select>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Valor Solicitado</label>
-                            <div class="input-group">
-                                <span class="input-group-text">R$</span>
-                                <input type="number" class="form-control" id="benefitAmount" step="0.01" required>
-                            </div>
-                        </div>
-                        <button type="submit" class="btn btn-info text-white w-100">
-                            <i class="bi bi-check-circle me-2"></i>
-                            Solicitar Benefício
-                        </button>
-                        <div id="benefitMessage" class="mt-3"></div>
-                    </form>
-                </div>
-            </div>
-        </div>
     </div>
 
     <div class="card bg-light mb-4">
