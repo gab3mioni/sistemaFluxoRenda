@@ -2,7 +2,7 @@ USE sistemaFluxoRenda;
 
 INSERT INTO governo (usuario, senha)
 VALUES
-    ('admin_governo', 'senha123'),
+    ('admin_governo', 'senha123');
 
 INSERT INTO empresas (nome, cnpj, receita, despesa, investimento, imposto, beneficio_governo)
 VALUES
