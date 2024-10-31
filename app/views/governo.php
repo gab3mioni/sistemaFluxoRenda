@@ -32,7 +32,7 @@
     </nav>
 
     <div class="container">
-       
+
         <div id="arrecadacao" class="card mb-4">
             <div class="card-header">
                 <h5 class="mb-0">Arrecadação de Impostos</h5>
@@ -40,26 +40,27 @@
             <div class="card-body">
                 <table class="table">
                     <thead>
-                        <tr>
-                            <th>Fonte</th>
-                            <th>Valor Total</th>
-                        </tr>
+                    <tr>
+                        <th>Fonte</th>
+                        <th>Valor Total</th>
+                    </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>Famílias</td>
-                            <td>R$ 0,00</td>
-                        </tr>
-                        <tr>
-                            <td>Empresas</td>
-                            <td>R$ 0,00</td>
-                        </tr>
+                    <tr>
+                        <td>Famílias</td>
+                        <td>R$ <?= number_format($somaImpostosFamilia, 2, ',', '.') ?></td>
+                    </tr>
+                    <tr>
+                        <td>Empresas</td>
+                        <td>R$ <?= number_format($somaImpostosEmpresa, 2, ',', '.') ?></td>
+                    </tr>
                     </tbody>
                 </table>
             </div>
         </div>
 
-    
+
+
         <div id="beneficios" class="card hidden-section mb-4">
             <div class="card-header">
                 <h5 class="mb-0">Distribuição e Gerenciamento de Benefícios</h5>
