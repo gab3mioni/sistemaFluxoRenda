@@ -5,6 +5,7 @@ namespace App\Controllers;
 use Core\Controller;
 use App\Models\FamiliaModel;
 use App\Services\AuthService;
+use App\Helpers\UrlHelper;
 
 class FamiliaController extends Controller
 {
@@ -45,14 +46,14 @@ class FamiliaController extends Controller
 
             if ($result) {
                 echo "Transação realizada com sucesso!";
-                header('Location: /sistemaFluxoRenda/public/familia');
+                header('Location: ' . UrlHelper::base_url('familia'));
             } else {
                 echo "Falha na transação. Verifique os dados e tente novamente.";
-                header('Location: /sistemaFluxoRenda/public/familia');
+                header('Location: ' . UrlHelper::base_url('familia'));
             }
         } else {
             echo "Método não permitido.";
-            header('Location: /sistemaFluxoRenda/public/familia');
+            header('Location: ' . UrlHelper::base_url('familia'));
         }
     }
 }

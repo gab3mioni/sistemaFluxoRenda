@@ -5,6 +5,7 @@ namespace App\Controllers;
 use Core\Controller;
 use App\Models\LoginModel;
 use App\Services\AuthService;
+use App\Helpers\UrlHelper;
 
 class LoginController extends Controller
 {
@@ -17,11 +18,6 @@ class LoginController extends Controller
     public function index(): void
     {
         $this->view('login'); // Carrega a view login.php
-    }
-
-    public function base_url($path = ''): string
-    {
-        return 'http://' . $_SERVER['HTTP_HOST'] . '/sistemaFluxoRenda/public/' . ltrim($path, '/');
     }
 
     public function authenticate(): void
@@ -60,15 +56,15 @@ class LoginController extends Controller
                 if ($user) {
                     $this->authService->login($user);
 
-                    header('Location: ' . $this->base_url('governo'));
+                    header('Location: ' . UrlHelper::base_url('governo'));
                     exit;
                 } else {
                     $errorMessage = 'Usuario não encontrado. Tente novamente';
-                    header('Location: ' . $this->base_url('login'));
+                    header('Location: ' . UrlHelper::base_url('login'));
                 }
             } else {
                 $errorMessage = 'Por favor, preencha todos os campos.';
-                header('Location: ' . $this->base_url('login'));
+                header('Location: ' . UrlHelper::base_url('login'));
             }
         } else {
             require_once __DIR__ . '/../views/login.php';
@@ -89,15 +85,15 @@ class LoginController extends Controller
                 if ($user) {
                     $this->authService->login($user);
 
-                    header('Location: ' . $this->base_url('empresa')); // Redireciona para a view empresa.php
+                    header('Location: ' . UrlHelper::base_url('empresa'));
                     exit;
                 } else {
                     $errorMessage = 'Usuario não encontrado. Tente novamente';
-                    header('Location: ' . $this->base_url('login'));
+                    header('Location: ' . UrlHelper::base_url('login'));
                 }
             } else {
                 $errorMessage = 'Por favor, preencha todos os campos.';
-                header('Location: ' . $this->base_url('login'));
+                header('Location: ' . UrlHelper::base_url('login'));
             }
         } else {
             require_once __DIR__ . '/../views/login.php';
@@ -118,15 +114,15 @@ class LoginController extends Controller
                 if ($user) {
                     $this->authService->login($user);
 
-                    header('Location: ' . $this->base_url('familia'));
+                    header('Location: ' . UrlHelper::base_url('familia'));
                     exit;
                 } else {
                     $errorMessage = 'Usuário não encontrado. Tente novamente';
-                    header('Location: ' . $this->base_url('login'));
+                    header('Location: ' . UrlHelper::base_url('login'));
                 }
             } else {
                 $errorMessage = 'Por favor, preencha todos os campos.';
-                header('Location: ' . $this->base_url('login'));
+                header('Location: ' . UrlHelper::base_url('login'));
             }
         } else {
             require_once __DIR__ . '/../views/login.php';
