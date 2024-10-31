@@ -92,17 +92,31 @@ class FamiliaModel
         return $query->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    private function getTransacoesGoverno(int $id_familia): array
+    {
+        $query = $this->pdo->prepare("
+        SELECT id AS id,NULL AS id_empresa, valor, tipo_transacao, data_transacao
+        FROM transacao_governo
+        WHERE id_familia = :id_familia
+        ");
+        $query->bindParam(":id_familia", $id_familia);
+        $query->execute();
+
+        return $query->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     public function getHistoricoTransacoes(int $id_familia): array
     {
         $transacoesFamiliaEmpresa = $this->getTransacoesFamiliaEmpresa($id_familia);
         $transacoesSetorFinanceiro = $this->getTransacoesSetorFinanceiro($id_familia);
+        $transacoesGoverno = $this->getTransacoesGoverno($id_familia);
 
-        return $this->combinarEOrdenarTransacoes($transacoesFamiliaEmpresa, $transacoesSetorFinanceiro);
+        return $this->combinarEOrdenarTransacoes($transacoesFamiliaEmpresa, $transacoesSetorFinanceiro, $transacoesGoverno);
     }
 
-    private function combinarEOrdenarTransacoes(array $transacoesFamiliaEmpresa, array $transacoesSetorFinanceiro): array
+    private function combinarEOrdenarTransacoes(array $transacoesFamiliaEmpresa, array $transacoesSetorFinanceiro, array $transacoesGoverno): array
     {
-        $combinedResults = array_merge($transacoesFamiliaEmpresa, $transacoesSetorFinanceiro);
+        $combinedResults = array_merge($transacoesFamiliaEmpresa, $transacoesSetorFinanceiro, $transacoesGoverno);
 
         usort($combinedResults, function($a, $b) {
             return strtotime($b['data_transacao']) - strtotime($a['data_transacao']);

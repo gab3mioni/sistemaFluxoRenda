@@ -4,18 +4,21 @@ namespace App\Controllers;
 use App\Helpers\UrlHelper;
 use App\Models\GovernoModel;
 use App\Services\AuthService;
+use App\Services\Validator\TransacaoValidator;
 use Core\Controller;
 
 class GovernoController extends Controller {
 
     private $governoModel;
     private $authService;
+    private $transacaoValidator;
 
 
     public function __construct()
     {
         $this->authService = new AuthService();
-        $this->governoModel = new GovernoModel($this->authService);
+        $this->transacaoValidator = new TransacaoValidator();
+        $this->governoModel = new GovernoModel($this->authService, $this->transacaoValidator);
     }
     public function index(): void
     {
