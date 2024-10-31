@@ -9,6 +9,7 @@
 <body>
 <div class="container mt-5">
     <h1 class="text-center">Bem-vindo à Página Inicial!</h1>
+    <a class="nav-link text-center" href="login">Login</a>
 </div>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
