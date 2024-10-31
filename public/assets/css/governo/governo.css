@@ -1,0 +1,15 @@
+.body { 
+    background-color: #f8f9fa; 
+}
+
+.nav-link.active { 
+    font-weight: bold; color: #007bff !important; 
+}
+
+.card { 
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1); 
+}
+
+.hidden-section { 
+    display: none; 
+}
