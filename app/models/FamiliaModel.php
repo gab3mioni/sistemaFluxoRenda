@@ -110,7 +110,7 @@ class FamiliaModel
         }
     }
 
-    public function atualizarSaldo(int $id, float $valor)
+    public function atualizarSaldo(int $id, float $valor): bool
     {
         try {
             $saldoAtual = $this->getSaldo();
@@ -137,7 +137,7 @@ class FamiliaModel
         }
     }
 
-    public function atualizarConsumo(int $id, float $valor)
+    public function atualizarConsumo(int $id, float $valor): bool
     {
         try {
             $consumoAtual = $this->getConsumo();
@@ -155,5 +155,4 @@ class FamiliaModel
             return false;
         }
     }
-
 }
