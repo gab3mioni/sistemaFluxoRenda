@@ -69,7 +69,7 @@ class LoginController extends Controller
                         $_SESSION['usuario']['tipo'] = 'governo';
                     }
 
-                    header('Location: ' . $this->base_url('dashboardGoverno')); // Redireciona para a view dashboardGoverno.php
+                    header('Location: ' . $this->base_url('governo'));
                     exit;
                 } else {
                     $errorMessage = 'Usuario não encontrado. Tente novamente';
