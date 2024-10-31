@@ -5,6 +5,7 @@ namespace App\Models;
 use PDO;
 use App\Services\AuthService;
 use App\Services\Validator\TransacaoValidator;
+use PDOException;
 
 class FamiliaModel
 {
@@ -146,6 +147,58 @@ class FamiliaModel
 
             $query = $this->pdo->prepare("UPDATE familias SET consumo = :novoConsumo WHERE id = :id");
             $query->bindParam(":novoConsumo", $novoConsumo);
+            $query->bindParam(":id", $id, PDO::PARAM_INT);
+            $query->execute();
+
+            return true;
+        } catch (Exception $e) {
+            echo "Erro: " . $e->getMessage();
+            return false;
+        }
+    }
+
+    public function setInvestimentoFamilia(string $tipo_transacao, float $valor): bool
+    {
+        try {
+            $this->pdo->beginTransaction();
+
+            $id_familia = $this->authService->isAuthenticated();
+            $origem = 'familia';
+            $saldoAtual = $this->getSaldo();
+
+            if($this->transacaoValidator->validateSaldo($saldoAtual)) {
+                $destino = ($tipo_transacao === 'poupanca') ? 'governo' : 'setor_finaceiro';
+
+                $query = $this->pdo->prepare("INSERT INTO setor_financeiro (id_familia, tipo_transacao, valor, origem, destino) VALUES (:id_familia, :tipo_transacao, :valor, :origem, :destino)");
+                $query->bindParam(":id_familia", $id_familia);
+                $query->bindParam(":tipo_transacao", $tipo_transacao);
+                $query->bindParam(":valor", $valor);
+                $query->bindParam(":origem", $origem);
+                $query->bindParam(":destino", $destino);
+                $result = $query->execute();
+
+                if($result && $this->atualizarSaldo($id_familia, $valor) && $this->atualizarInvestimento($id_familia, $valor)) {
+                    $this->pdo->commit();
+                    return true;
+                }
+            }
+            $this->pdo->rollBack();
+            return false;
+        } catch (Exception $e) {
+            $this->pdo->rollBack();
+            return false;
+        }
+    }
+
+    public function atualizarInvestimento(int $id, float $valor): bool
+    {
+        try {
+            $investimentoAtual = $this->getInvestimento();
+
+            $novoInvesimento = $investimentoAtual + $valor;
+
+            $query = $this->pdo->prepare("UPDATE familias SET investimento = :novoInvestimento WHERE id = :id");
+            $query->bindParam(":novoInvestimento", $novoInvesimento);
             $query->bindParam(":id", $id, PDO::PARAM_INT);
             $query->execute();
 

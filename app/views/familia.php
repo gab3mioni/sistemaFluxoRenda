@@ -71,13 +71,11 @@
                             <i class="bi bi-send me-2"></i>
                             Realizar Transação
                         </button>
-                        <div id="transactionMessage" class="mt-3"></div>
                     </form>
                 </div>
             </div>
         </div>
 
-        <!-- Investimentos -->
         <div class="col-md-4">
             <div class="card h-100">
                 <div class="card-header bg-success text-white">
@@ -87,26 +85,25 @@
                     </h5>
                 </div>
                 <div class="card-body">
-                    <form id="investmentForm">
+                    <form method="POST" action="familia/newInvestimento">
                         <div class="mb-3">
                             <label class="form-label">Tipo de Investimento</label>
-                            <select class="form-select" id="investmentType" required>
-                                <option value="P">Poupança</option>
-                                <option value="I">Investimento</option>
+                            <select class="form-select" name="tipo" required>
+                                <option value="poupanca">Poupança</option>
+                                <option value="investimento">Investimento</option>
                             </select>
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Valor</label>
                             <div class="input-group">
                                 <span class="input-group-text">R$</span>
-                                <input type="number" class="form-control" id="investmentAmount" step="0.01" required>
+                                <input type="number" name="valor" class="form-control" required>
                             </div>
                         </div>
                         <button type="submit" class="btn btn-success w-100">
                             <i class="bi bi-piggy-bank me-2"></i>
                             Realizar Investimento
                         </button>
-                        <div id="investmentMessage" class="mt-3"></div>
                     </form>
                 </div>
             </div>

@@ -67,4 +67,30 @@ class FamiliaController extends Controller
             header('Location: ' . UrlHelper::base_url('familia'));
         }
     }
+
+    public function newInvestimento(): void
+    {
+        if($_SERVER['REQUEST_METHOD'] == "POST") {
+            $valor = filter_input(INPUT_POST, 'valor', FILTER_VALIDATE_FLOAT);
+            $tipo = filter_input(INPUT_POST, 'tipo', FILTER_SANITIZE_SPECIAL_CHARS);
+
+            if (!$tipo || !$valor || $valor <= 0) {
+                echo "Dados inválidos. Verifique e tente novamente.";
+                return;
+            }
+
+            $result = $this->familiaModel->setInvestimentoFamilia($tipo, $valor);
+
+            if ($result) {
+                echo "Investimento realizado com sucesso!";
+                header('Location: ' . UrlHelper::base_url('familia'));
+            } else {
+                echo "Falha no investimento. Verifique os dados e tente novamente.";
+                header('Location: ' . UrlHelper::base_url('familia'));
+            }
+        } else {
+            echo "Método não permitido.";
+            header('Location: ' . UrlHelper::base_url('familia'));
+        }
+    }
 }
