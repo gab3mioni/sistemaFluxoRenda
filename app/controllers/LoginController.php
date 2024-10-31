@@ -58,26 +58,17 @@ class LoginController extends Controller
                 $user = $loginModel->loginGoverno($usuario, $senha);
 
                 if ($user) {
-                    session_start(); // Inicia a sessão do usuário
-                    if ( isset($user) && isset($user['tipo'])) {
-                        $_SESSION['usuario'] = $user; // Armazena informações para uso posterior
-                        $_SESSION['usuario']['tipo'] = $user['tipo']; // Armazena tipo para uso posterior
-                        $_SESSION['usuario']['id'] = $user['id']; // Armazena id para uso posterior
-                        $_SESSION['usuario']['nome'] = $user['nome']; // Armazena nome para uso posterior
-                    } else {
-                        $_SESSION['usuario'] = [];
-                        $_SESSION['usuario']['tipo'] = 'governo';
-                    }
+                    $this->authService->login($user);
 
                     header('Location: ' . $this->base_url('governo'));
                     exit;
                 } else {
                     $errorMessage = 'Usuario não encontrado. Tente novamente';
-                    include __DIR__ . '/../views/login.php';
+                    header('Location: ' . $this->base_url('login'));
                 }
             } else {
                 $errorMessage = 'Por favor, preencha todos os campos.';
-                include __DIR__ . '/../views/login.php';
+                header('Location: ' . $this->base_url('login'));
             }
         } else {
             require_once __DIR__ . '/../views/login.php';
@@ -96,27 +87,17 @@ class LoginController extends Controller
                 $user = $loginModel->loginEmpresa($usuario, $senha);
 
                 if ($user) {
-                    session_start(); // Inicia a sessão do usuário
-                    if ( isset($user) && isset($user['tipo'])) {
-                        $_SESSION['usuario'] = $user; // Armazena informações para uso posterior
-                        $_SESSION['usuario']['tipo'] = $user['tipo']; // Armazena tipo para uso posterior
-                        $_SESSION['usuario']['id'] = $user['id']; // Armazena id para uso posterior
-                        $_SESSION['usuario']['nome'] = $user['nome']; // Armazena nome para uso posterior
-                    } else {
-                        $_SESSION['usuario'] = [];
-                        $_SESSION['usuario']['tipo'] = 'empresa';
-                    }
-
+                    $this->authService->login($user);
 
                     header('Location: ' . $this->base_url('empresa')); // Redireciona para a view empresa.php
                     exit;
                 } else {
                     $errorMessage = 'Usuario não encontrado. Tente novamente';
-                    include __DIR__ . '/../views/login.php';
+                    header('Location: ' . $this->base_url('login'));
                 }
             } else {
                 $errorMessage = 'Por favor, preencha todos os campos.';
-                include __DIR__ . '/../views/login.php';
+                header('Location: ' . $this->base_url('login'));
             }
         } else {
             require_once __DIR__ . '/../views/login.php';
@@ -141,11 +122,11 @@ class LoginController extends Controller
                     exit;
                 } else {
                     $errorMessage = 'Usuário não encontrado. Tente novamente';
-                    include __DIR__ . '/../views/login.php';
+                    header('Location: ' . $this->base_url('login'));
                 }
             } else {
                 $errorMessage = 'Por favor, preencha todos os campos.';
-                include __DIR__ . '/../views/login.php';
+                header('Location: ' . $this->base_url('login'));
             }
         } else {
             require_once __DIR__ . '/../views/login.php';
