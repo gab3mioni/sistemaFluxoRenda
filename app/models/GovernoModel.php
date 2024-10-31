@@ -120,4 +120,34 @@ class GovernoModel
             return false;
         }
     }
+
+    public function showBeneficios(): array
+    {
+        try {
+            $sql = "
+        SELECT 
+            t.valor, 
+            t.data_transacao, 
+            COALESCE(f.nome, e.nome) AS destinatario_nome
+        FROM 
+            transacao_governo t
+        LEFT JOIN 
+            familias f ON t.id_familia = f.id
+        LEFT JOIN 
+            empresas e ON t.id_empresa = e.id
+        WHERE 
+            t.tipo_transacao = 'beneficio'
+        ORDER BY 
+            t.data_transacao DESC";
+
+            $query = $this->pdo->prepare($sql);
+            $query->execute();
+
+            return $query->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            return [];
+        }
+    }
+
+
 }

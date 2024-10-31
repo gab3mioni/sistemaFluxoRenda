@@ -25,10 +25,19 @@ class GovernoController extends Controller {
         $impostoFamilias = $this->governoModel->getImpostoFamilia();
         $impostoEmpresas = $this->governoModel->getImpostoEmpresas();
 
+        $beneficiosFamilia = $this->governoModel->showBeneficios('familia');
+        $beneficiosEmpresa = $this->governoModel->showBeneficios('empresa');
+
         $somaImpostosFamilia = $this->somaImpostosFamilia($impostoFamilias);
         $somaImpostosEmpresa = $this->somaImpostosEmpresas($impostoEmpresas);
 
-        $this->view('governo', ['somaImpostosFamilia' => $somaImpostosFamilia,  'somaImpostosEmpresa' => $somaImpostosEmpresa]);
+
+        $this->view('governo', [
+            'somaImpostosFamilia' => $somaImpostosFamilia,
+            'somaImpostosEmpresa' => $somaImpostosEmpresa,
+            'beneficiosFamilia' => $beneficiosFamilia,
+            'beneficiosEmpresa' => $beneficiosEmpresa,
+        ]);
     }
 
     public function somaImpostosFamilia(array $impostoFamilias): float
