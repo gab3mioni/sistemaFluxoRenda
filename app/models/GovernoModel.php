@@ -57,4 +57,17 @@ class GovernoModel
 
         return $query->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    public function setBeneficio(int $id, string $destinatario, float $valor): bool
+    {
+        $tipoTransacao = 'beneficio';
+
+        $sql = "INSERT INTO transacao_governo (id_familia, valor, tipo_transacao) VALUES (:id_familia, :valor, :tipo_transacao)";
+        $query = $this->pdo->prepare($sql);
+        $query->bindParam(":id_familia", $id, PDO::PARAM_INT);
+        $query->bindParam(":valor", $valor, PDO::PARAM_STR);
+        $query->bindParam(":tipo_transacao", $tipoTransacao, PDO::PARAM_STR);
+
+        return $query->execute();
+    }
 }

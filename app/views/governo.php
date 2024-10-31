@@ -67,26 +67,26 @@
             </div>
             <div class="card-body">
                 <h6>Adicionar Benefício</h6>
-                <form id="addBenefitForm">
+                <form method="POST" action="governo/newBeneficio">
                     <div class="form-row">
                         <div class="form-group col-md-4">
-                            <label for="tipo-beneficio">Tipo de Benefício</label>
-                            <input type="text" id="tipo-beneficio" class="form-control" placeholder="Tipo" required>
-                        </div>
-                        <div class="form-group col-md-4">
                             <label for="valor-beneficio">Valor (R$)</label>
-                            <input type="number" id="valor-beneficio" class="form-control" placeholder="Valor" required>
+                            <input type="number" name="valor" class="form-control" placeholder="Valor" required>
                         </div>
                         <div class="form-group col-md-4">
                             <label for="destinatario-beneficio">Destinatário</label>
-                            <select id="destinatario-beneficio" class="form-control">
-                                <option value="família">Família</option>
+                            <select name="destinatario" class="form-control">
+                                <option value="familia">Família</option>
                                 <option value="empresa">Empresa</option>
                             </select>
                         </div>
+                        <div class="form-group col-md4">
+                            <label for="id">ID</label>
+                            <input type="number" name="id" class="form-control" placeholder="ID" required>
                     </div>
-                    <button type="button" class="btn btn-primary btn-block" onclick="addBenefit()">Salvar Benefício</button>
+                    <button type="submit" class="btn btn-primary btn-block">Salvar Benefício</button>
                 </form>
+
                 <hr>
                 <h6>Benefícios Ativos</h6>
                 <div id="benefitsList" class="list-group">

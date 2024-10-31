@@ -1,6 +1,7 @@
 <?php
 namespace App\Controllers;
 
+use App\Helpers\UrlHelper;
 use App\Models\GovernoModel;
 use App\Services\AuthService;
 use Core\Controller;
@@ -47,5 +48,32 @@ class GovernoController extends Controller {
         }
 
         return $soma;
+    }
+
+    public function newBeneficio(): void
+    {
+        if($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $id = filter_input(INPUT_POST, 'id', FILTER_SANITIZE_NUMBER_INT);
+            $destinatario = htmlspecialchars(trim($_POST['destinatario'] ?? ''), ENT_QUOTES, 'UTF-8');
+            $valor = filter_input(INPUT_POST, 'valor', FILTER_VALIDATE_FLOAT);
+
+            if (!$id || !$destinatario || !$valor) {
+                echo "Dados inválidos. Verifique e tente novamente";
+                return;
+            }
+
+            $result = $this->governoModel->setBeneficio($id, $destinatario, $valor);
+
+            if($result) {
+                echo "Transação realizada com sucesso!";
+                header('Location: ' . UrlHelper::base_url('governo'));
+            } else {
+                echo "Falha na transação. Verifique os dados e tente novamente";
+                header('Location: ' . UrlHelper::base_url('governo'));
+            }
+        } else {
+            echo "Método não permitido.";
+            header('Location: ' . UrlHelper::base_url('governo'));
+        }
     }
 }
