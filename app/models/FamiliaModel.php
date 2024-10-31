@@ -96,9 +96,10 @@ class FamiliaModel
                     $result = $query->execute();
 
                     if($result && $this->atualizarSaldo($id_familia, $valor)) {
-                        $this->pdo->commit();
-
-                        return true;
+                        if($tipo_transacao == 'consumo' && $this->atualizarConsumo($id_familia, $valor)) {
+                            $this->pdo->commit();
+                            return true;
+                        }
                     }
                 }
             }
@@ -130,6 +131,25 @@ class FamiliaModel
             } else {
                 return false;
             }
+        } catch (Exception $e) {
+            echo "Erro: " . $e->getMessage();
+            return false;
+        }
+    }
+
+    public function atualizarConsumo(int $id, float $valor)
+    {
+        try {
+            $consumoAtual = $this->getConsumo();
+
+            $novoConsumo = $consumoAtual + $valor;
+
+            $query = $this->pdo->prepare("UPDATE familias SET consumo = :novoConsumo WHERE id = :id");
+            $query->bindParam(":novoConsumo", $novoConsumo);
+            $query->bindParam(":id", $id, PDO::PARAM_INT);
+            $query->execute();
+
+            return true;
         } catch (Exception $e) {
             echo "Erro: " . $e->getMessage();
             return false;
