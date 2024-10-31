@@ -10,12 +10,14 @@ class FamiliaModel
 {
     private $pdo;
     private $authService;
+    private $transacaoValidator;
 
-    public function __construct(AuthService $authService)
+    public function __construct(AuthService $authService, TransacaoValidator $transacaoValidator)
     {
         global $pdo;
         $this->pdo = $pdo;
         $this->authService = $authService;
+        $this->transacaoValidator = $transacaoValidator;
     }
 
     public function getSaldo(): float
@@ -76,17 +78,16 @@ class FamiliaModel
         return $query->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function setTransacao(int $id_empresa, float $valor, string $tipo_transacao): bool
+    public function setTransacaoFamiliaEmpresa(int $id_empresa, float $valor, string $tipo_transacao): bool
     {
         try {
             $this->pdo->beginTransaction();
 
             $id_familia = $this->authService->isAuthenticated();
             $saldoAtual = $this->getSaldo();
-            $transacaoValidator = new TransacaoValidator();
 
-            if ($transacaoValidator->validateSaldo($saldoAtual)) {
-                if ($transacaoValidator->validateValorInserido($valor)) {
+            if ($this->transacaoValidator->validateSaldo($saldoAtual)) {
+                if ($this->transacaoValidator->validateValorInserido($valor)) {
                     $query = $this->pdo->prepare("INSERT INTO transacao_familia_empresa (id_familia, id_empresa, valor, tipo_transacao) VALUES (:id_familia, :id_empresa, :valor, :tipo_transacao)");
                     $query->bindParam(':id_familia', $id_familia);
                     $query->bindParam(':id_empresa', $id_empresa);
@@ -94,14 +95,43 @@ class FamiliaModel
                     $query->bindParam(':tipo_transacao', $tipo_transacao);
                     $result = $query->execute();
 
-                    $this->pdo->commit();
+                    if($result && $this->atualizarSaldo($id_familia, $valor)) {
+                        $this->pdo->commit();
 
-                    return $result;
+                        return true;
+                    }
                 }
             }
             return false;
         } catch (PDOException $e) {
             $this->pdo->rollBack();
+            return false;
+        }
+    }
+
+    public function atualizarSaldo(int $id, float $valor)
+    {
+        try {
+            $saldoAtual = $this->getSaldo();
+
+            if($this->transacaoValidator->validateSaldo($saldoAtual)) {
+                $novoSaldo = $saldoAtual - $valor;
+
+                if($novoSaldo >= 0) {
+                    $query = $this->pdo->prepare("UPDATE familias SET saldo = :novoSaldo WHERE id = :id");
+                    $query->bindParam(":novoSaldo", $novoSaldo);
+                    $query->bindParam(":id", $id, PDO::PARAM_INT);
+                    $query->execute();
+
+                    return true;
+                } else {
+                    return false;
+                }
+            } else {
+                return false;
+            }
+        } catch (Exception $e) {
+            echo "Erro: " . $e->getMessage();
             return false;
         }
     }

@@ -6,16 +6,19 @@ use Core\Controller;
 use App\Models\FamiliaModel;
 use App\Services\AuthService;
 use App\Helpers\UrlHelper;
+use App\Services\Validator\TransacaoValidator;
 
 class FamiliaController extends Controller
 {
     private $familiaModel;
     private $authService;
+    private $transacaoValidator;
 
     public function __construct()
     {
         $this->authService = new AuthService();
-        $this->familiaModel = new FamiliaModel($this->authService);
+        $this->transacaoValidator = new TransacaoValidator();
+        $this->familiaModel = new FamiliaModel($this->authService, $this->transacaoValidator);
     }
     public function index(): void
     {
@@ -50,7 +53,7 @@ class FamiliaController extends Controller
                 return;
             }
 
-            $result = $this->familiaModel->setTransacao($id, $valor, $tipo);
+            $result = $this->familiaModel->setTransacaoFamiliaEmpresa($id, $valor, $tipo);
 
             if ($result) {
                 echo "Transação realizada com sucesso!";
