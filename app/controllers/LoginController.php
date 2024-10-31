@@ -4,20 +4,27 @@ namespace App\Controllers;
 
 use Core\Controller;
 use App\Models\LoginModel;
+use App\Services\AuthService;
 
 class LoginController extends Controller
 {
-    public function index()
+    private $authService;
+
+    public function __construct()
+    {
+        $this->authService = new AuthService();
+    }
+    public function index(): void
     {
         $this->view('login'); // Carrega a view login.php
     }
 
-    public function base_url($path = '')
+    public function base_url($path = ''): string
     {
         return 'http://' . $_SERVER['HTTP_HOST'] . '/sistemaFluxoRenda/public/' . ltrim($path, '/');
     }
 
-    public function authenticate()
+    public function authenticate(): void
     {
         $usuario = filter_input(INPUT_POST, 'user', FILTER_SANITIZE_SPECIAL_CHARS);
         $senha = filter_input(INPUT_POST, 'senha', FILTER_SANITIZE_SPECIAL_CHARS);
@@ -39,7 +46,7 @@ class LoginController extends Controller
         }
     }
 
-    public function loginGoverno($usuario, $senha)
+    public function loginGoverno($usuario, $senha): void
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
@@ -77,7 +84,7 @@ class LoginController extends Controller
         }
     }
 
-    public function loginEmpresa($usuario, $senha)
+    public function loginEmpresa($usuario, $senha): void
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
@@ -101,7 +108,7 @@ class LoginController extends Controller
                     }
 
 
-                    header('Location: ' . $this->base_url('dashboardEmpresa')); // Redireciona para a view dashboardEmpresa.php
+                    header('Location: ' . $this->base_url('empresa')); // Redireciona para a view empresa.php
                     exit;
                 } else {
                     $errorMessage = 'Usuario não encontrado. Tente novamente';
@@ -116,7 +123,7 @@ class LoginController extends Controller
         }
     }
 
-    public function loginFamilia($usuario, $senha)
+    public function loginFamilia($usuario, $senha): void
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
@@ -128,22 +135,12 @@ class LoginController extends Controller
                 $user = $loginModel->loginFamilia($usuario, $senha);
 
                 if ($user) {
-                    session_start(); // Inicia a sessão do usuário
-                    if ( isset($user) && isset($user['tipo'])) {
-                        $_SESSION['usuario'] = $user; // Armazena informações para uso posterior
-                        $_SESSION['usuario']['tipo'] = $user['tipo']; // Armazena tipo para uso posterior
-                        $_SESSION['usuario']['id'] = $user['id']; // Armazena id para uso posterior
-                        $_SESSION['usuario']['nome'] = $user['nome']; // Armazena nome para uso posterior
-                    } else {
-                        $_SESSION['usuario'] = [];
-                        $_SESSION['usuario']['tipo'] = 'familia';
-                    }
+                    $this->authService->login($user);
 
-
-                    header('Location: ' . $this->base_url('dashboardFamilia')); // Redireciona para a view dashboardFamilia.php
+                    header('Location: ' . $this->base_url('familia'));
                     exit;
                 } else {
-                    $errorMessage = 'Usuario não encontrado. Tente novamente';
+                    $errorMessage = 'Usuário não encontrado. Tente novamente';
                     include __DIR__ . '/../views/login.php';
                 }
             } else {
