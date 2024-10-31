@@ -28,13 +28,12 @@ VALUES
     ('importacao', 'Importação de Petróleo', 100000.00),
     ('exportacao', 'Exportação de Minério de Ferro', 150000.00);
 
-INSERT INTO setor_financeiro (tipo_transacao, valor, origem, destino)
+INSERT INTO setor_financeiro (id_familia, id_empresa, tipo_transacao, valor, origem, destino)
 VALUES
-    ('investimento', 20000.00, 'empresa', 'setor_externo'),
-    ('poupanca', 5000.00, 'familia', 'governo'),
-    ('emprestimo', 30000.00, 'setor_externo', 'empresa'),
-    ('investimento', 15000.00, 'governo', 'familia'),
-    ('poupanca', 10000.00, 'familia', 'empresa');
+    (NULL, 1, 'investimento', 20000.00, 'empresa', 'setor_externo'),
+    (1, NULL, 'poupanca', 5000.00, 'familia', 'governo'),
+    (NULL, 2, 'emprestimo', 30000.00, 'setor_externo', 'empresa'),
+    (1, NULL, 'investimento', 15000.00, 'governo', 'familia');
 
 INSERT INTO transacao_familia_empresa (id_familia, id_empresa, valor, tipo_transacao)
 VALUES

@@ -46,12 +46,16 @@ CREATE TABLE IF NOT EXISTS setor_externo (
 
 CREATE TABLE IF NOT EXISTS setor_financeiro (
     id INT AUTO_INCREMENT PRIMARY KEY,
+    id_familia INT,
+    id_empresa INT,
     tipo_transacao ENUM('investimento', 'poupanca', 'emprestimo') NOT NULL,
     valor DECIMAL(15, 2) NOT NULL,
     origem ENUM('familia', 'empresa', 'governo', 'setor_externo') NOT NULL,
     destino ENUM('familia', 'empresa', 'governo', 'setor_externo') NOT NULL,
-    data_transacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
+    data_transacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (id_familia) REFERENCES familias(id) ON DELETE CASCADE,
+    FOREIGN KEY (id_empresa) REFERENCES empresas(id) ON DELETE CASCADE
+    );
 
 CREATE TABLE IF NOT EXISTS transacao_familia_empresa (
     id INT AUTO_INCREMENT PRIMARY KEY,
