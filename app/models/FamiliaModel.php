@@ -4,6 +4,7 @@ namespace App\Models;
 
 use PDO;
 use App\Services\AuthService;
+use App\Services\Validator\TransacaoValidator;
 
 class FamiliaModel
 {
@@ -66,18 +67,26 @@ class FamiliaModel
     {
         try {
             $this->pdo->beginTransaction();
+
             $id_familia = $this->authService->isAuthenticated();
+            $saldoAtual = $this->getSaldo();
+            $transacaoValidator = new TransacaoValidator();
 
-            $query = $this->pdo->prepare("INSERT INTO transacao_familia_empresa (id_familia, id_empresa, valor, tipo_transacao) VALUES (:id_familia, :id_empresa, :valor, :tipo_transacao)");
-            $query->bindParam(':id_familia', $id_familia);
-            $query->bindParam(':id_empresa', $id_empresa);
-            $query->bindParam(':valor', $valor);
-            $query->bindParam(':tipo_transacao', $tipo_transacao);
-            $result = $query->execute();
+            if ($transacaoValidator->validateSaldo($saldoAtual)) {
+                if ($transacaoValidator->validateValorInserido($valor)) {
+                    $query = $this->pdo->prepare("INSERT INTO transacao_familia_empresa (id_familia, id_empresa, valor, tipo_transacao) VALUES (:id_familia, :id_empresa, :valor, :tipo_transacao)");
+                    $query->bindParam(':id_familia', $id_familia);
+                    $query->bindParam(':id_empresa', $id_empresa);
+                    $query->bindParam(':valor', $valor);
+                    $query->bindParam(':tipo_transacao', $tipo_transacao);
+                    $result = $query->execute();
 
-            $this->pdo->commit();
+                    $this->pdo->commit();
 
-            return $result;
+                    return $result;
+                }
+            }
+            return false;
         } catch (PDOException $e) {
             $this->pdo->rollBack();
             return false;
