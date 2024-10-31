@@ -46,12 +46,15 @@
                 <tbody>
                 <tr>
                     <td>Famílias</td>
-                    
+                    <!-- NÃO MEXER NO CÓDIGO, APENAS SE PRECISAR COLOCAR A CLASS -->
                     <td>R$ <?= number_format($somaImpostosFamilia, 2, ',', '.') ?></td>
+                    <!-- NÃO MEXER NO CÓDIGO, APENAS SE PRECISAR COLOCAR A CLASS -->
                 </tr>
                 <tr>
                     <td>Empresas</td>
+                    <!-- NÃO MEXER NO CÓDIGO, APENAS SE PRECISAR COLOCAR A CLASS -->
                     <td>R$ <?= number_format($somaImpostosEmpresa, 2, ',', '.') ?></td>
+                    <!-- NÃO MEXER NO CÓDIGO, APENAS SE PRECISAR COLOCAR A CLASS -->
                 </tr>
                 </tbody>
             </table>
