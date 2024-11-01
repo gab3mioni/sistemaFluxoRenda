@@ -23,7 +23,7 @@
                     </p>
                 </div>
 
-                <div class="row">
+                <div class="row text-center">
                     <div class="col-md-3">
                         <h4 class="card-title">Renda</h4>
                         <p>
@@ -137,7 +137,7 @@
 
     </div>
 
-    <div class="card bg-light mb-4">
+    <div class="card bg-light my-4">
         <div class="card-header">
             <h4>Histórico de Transações</h4>
         </div>
