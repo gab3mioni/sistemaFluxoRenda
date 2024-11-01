@@ -90,7 +90,7 @@ Nós usamos [Git](https://git-scm.com/) para controle de versão. Para as versõ
 
 ## ✒️ Autores
 
-* **Alexandre Ferreira** - *Desenvolvedor Fullstack* - [aleferreiras](https://github.com/ale-ferreiras)
+* **Alexandre Ferreira** - *Desenvolvedor Frontend* - [aleferreiras](https://github.com/ale-ferreiras)
 * **Gabriel de Sousa Castro** - *Desenvolvedor Frontend* - [castro-bit](https://github.com/castro-bit)
-* **Gabriel Mioni Bastos** - *Desenvolvedor Fullstack* - [gab3mioni](https://github.com/gab3mioni)
-* **Melissa Cristine de Souza Máximo** - *UX/UI Designer & Fullstack* - [MelissaMaximo](https://github.com/MelissaMaximo)
+* **Gabriel Mioni Bastos** - *Desenvolvedor Backend* - [gab3mioni](https://github.com/gab3mioni)
+* **Melissa Cristine de Souza Máximo** - *UX/UI Designer & Frontend* - [MelissaMaximo](https://github.com/MelissaMaximo)
