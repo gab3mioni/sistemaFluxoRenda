@@ -20,9 +20,7 @@ class AuthService
     {
         if (!empty($user) && isset($user['id'])) {
             $_SESSION['usuario'] = [
-                'id' => $user['id'],
-                'nome' => $user['nome'] ?? null,
-                'tipo' => $user['tipo'] ?? null
+                'id' => $user['id']
             ];
         }
     }
