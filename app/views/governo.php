@@ -26,6 +26,9 @@
             <li class="nav-item">
                 <a class="nav-link" href="#taxas" onclick="showSection('taxas', this)">Taxas de Imposto</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="governo/logout">Sair</a>
+            </li>
         </ul>
     </div>
 </nav>

@@ -40,6 +40,11 @@ class GovernoController extends Controller {
         ]);
     }
 
+    public function logout(): void
+    {
+        $this->authService->logout();
+    }
+
     public function somaImpostosFamilia(array $impostoFamilias): float
     {
         $soma = 0.0;
