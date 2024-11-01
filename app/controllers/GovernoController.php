@@ -40,6 +40,11 @@ class GovernoController extends Controller {
         ]);
     }
 
+    public function logout(): void
+    {
+        $this->authService->logout();
+    }
+
     public function somaImpostosFamilia(array $impostoFamilias): float
     {
         $soma = 0.0;
@@ -75,6 +80,38 @@ class GovernoController extends Controller {
             }
 
             $result = $this->governoModel->setBeneficio($id, $destinatario, $valor);
+
+            if($result) {
+                echo "Transação realizada com sucesso!";
+                header('Location: ' . UrlHelper::base_url('governo'));
+            } else {
+                echo "Falha na transação. Verifique os dados e tente novamente";
+                header('Location: ' . UrlHelper::base_url('governo'));
+            }
+        } else {
+            echo "Método não permitido.";
+            header('Location: ' . UrlHelper::base_url('governo'));
+        }
+    }
+
+    public function newImposto(): void
+    {
+        if($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $id = filter_input(INPUT_POST, 'id', FILTER_SANITIZE_NUMBER_INT);
+            $tipo = htmlspecialchars(trim($_POST['tipo'] ?? ''), ENT_QUOTES, 'UTF-8');
+            $valor = filter_input(INPUT_POST, 'valor', FILTER_VALIDATE_FLOAT);
+
+            var_dump($_POST);
+            var_dump($id);
+            var_dump($tipo);
+            var_dump($valor);
+
+            if (!$id || !$tipo || !$valor) {
+                echo "Dados inválidos. Verifique e tente novamente";
+                return;
+            }
+
+            $result = $this->governoModel->setImposto($id, $tipo, $valor);
 
             if($result) {
                 echo "Transação realizada com sucesso!";

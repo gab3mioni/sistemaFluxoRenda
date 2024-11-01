@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use InvalidArgumentException;
 use PDO;
 use PDOException;
 use App\Services\AuthService;
@@ -149,5 +150,40 @@ class GovernoModel
         }
     }
 
+    public function setImposto(int $id, string $tipo, float $valor): bool
+    {
+        try {
+            $this->pdo->beginTransaction();
 
+            $tipoTransacao = 'imposto';
+
+            if ($tipoTransacao != 'imposto' || empty($tipo)) {
+                $this->pdo->rollBack();
+                throw new InvalidArgumentException("Tipo de imposto é obrigatório para transações do tipo 'imposto'.");
+            }
+
+            if ($this->transacaoValidator->validateValorInserido($valor)) {
+                $sql = "INSERT INTO transacao_governo (id_empresa, valor, tipo_transacao, tipo_imposto) 
+                    VALUES (:id_empresa, :valor, :tipo_transacao, :tipo_imposto)";
+                $query = $this->pdo->prepare($sql);
+                $query->bindParam(":id_empresa", $id, PDO::PARAM_INT);
+                $query->bindParam(":valor", $valor, PDO::PARAM_STR);
+                $query->bindParam(":tipo_transacao", $tipoTransacao, PDO::PARAM_STR);
+                $query->bindParam(":tipo_imposto", $tipo, PDO::PARAM_STR);
+                $result = $query->execute();
+
+                if ($result) { // adicionar inserção de imposto para empresa com atualizarImposto
+                    $this->pdo->commit();
+                    return true;
+                }
+            }
+            $this->pdo->rollBack();
+            return false;
+        } catch (PDOException $e) {
+            $this->pdo->rollBack();
+            return false;
+        } catch (InvalidArgumentException $e) {
+            return false;
+        }
+    }
 }

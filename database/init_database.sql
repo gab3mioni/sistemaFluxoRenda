@@ -74,6 +74,7 @@ CREATE TABLE IF NOT EXISTS transacao_governo (
     id_empresa INT NULL,
     valor DECIMAL(15, 2) NOT NULL,
     tipo_transacao ENUM('imposto', 'beneficio') NOT NULL,
+    tipo_imposto ENUM('iptu', 'ipva', 'pis') NULL,
     data_transacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (id_familia) REFERENCES familias(id) ON DELETE SET NULL,
     FOREIGN KEY (id_empresa) REFERENCES empresas(id) ON DELETE SET NULL
