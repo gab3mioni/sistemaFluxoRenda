@@ -43,10 +43,10 @@ VALUES
     (4, 4, 5000.00, 'consumo'),
     (5, 5, 6000.00, 'salario');
 
-INSERT INTO transacao_governo (id_familia, id_empresa, valor, tipo_transacao)
+INSERT INTO transacao_governo (id_familia, id_empresa, valor, tipo_transacao, tipo_imposto)
 VALUES
-    (1, NULL, 200.00, 'beneficio'),
-    (2, NULL, 300.00, 'beneficio'),
-    (3, 1, 5000.00, 'imposto'),
-    (NULL, 2, 10000.00, 'imposto'),
-    (5, NULL, 600.00, 'beneficio');
+    (1, NULL, 200.00, 'beneficio', NULL),
+    (2, NULL, 300.00, 'beneficio', NULL),
+    (NULL, 1, 5000.00, 'imposto', 'iptu'),
+    (NULL, 2, 10000.00, 'imposto', 'ipva'),
+    (5, NULL, 600.00, 'beneficio', NULL);
