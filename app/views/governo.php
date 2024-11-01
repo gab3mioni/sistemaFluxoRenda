@@ -101,24 +101,16 @@
             <h5 class="mb-0">Taxas</h5>
         </div>
         <div class="card-body">
-            <h6>Cobrar Impostos</h6>
+            <h6>Cobrar Imposto das Empresas</h6>
             <form method="POST" action="governo/newImposto">
                 <div class="form-row">
                     <div class="form-group col-md-3">
                         <label for="preco-taxa">Valor (R$)</label>
-                        <input type="number" id="preco-taxa" class="form-control" placeholder="Valor da taxa" required>
-                    </div>
-                    <div class="form-group col-md-3">
-                        <label for="destinatario-taxa">Destinatário</label>
-                        <select id="destinatario-taxa" class="form-control" required>
-                            <option value="" disabled selected>Selecione</option>
-                            <option value="Família">Família</option>
-                            <option value="Empresa">Empresa</option>
-                        </select>
+                        <input type="number" name="valor" class="form-control" placeholder="Valor do imposto" required>
                     </div>
                     <div class="form-group col-md-3">
                         <label>Tipo de Imposto</label>
-                        <select id="destinatario-taxa" class="form-control" required>
+                        <select name="tipo" class="form-control" required>
                             <option value="" disabled selected>Selecione</option>
                             <option value="IPTU">IPTU</option>
                             <option value="IPVA">IPVA</option>
@@ -127,14 +119,13 @@
                     </div>
                     <div class="form-group col-md-3">
                         <label for="preco-taxa">ID</label>
-                        <input type="number" id="preco-taxa" class="form-control" placeholder="ID" required>
+                        <input type="number" name="id" class="form-control" placeholder="ID" required>
                     </div>
                 </div>
                 <button type="submit" class="btn btn-primary btn-block">Cobrar</button>
             </form>
             <hr>
             <h6>Taxas Ativas</h6>
-            <div id="taxList" class="list-group"></div>
         </div>
     </div>
 </div>
