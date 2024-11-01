@@ -31,5 +31,6 @@ class AuthService
     {
         session_unset();
         session_destroy();
+        header('Location: /sistemaFluxoRenda/public/');
     }
 }
