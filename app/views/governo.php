@@ -67,7 +67,7 @@
                 <div class="form-row">
                     <div class="form-group col-md-4">
                         <label for="valor-beneficio">Valor (R$)</label>
-                        <input type="number" name="valor" class="form-control" placeholder="Valor" required>
+                        <input type="number" name="valor" class="form-control" placeholder="Valor do benefício" required>
                     </div>
                     <div class="form-group col-md-4">
                         <label for="destinatario-beneficio">Destinatário</label>
@@ -98,12 +98,16 @@
 
     <div id="taxas" class="card hidden-section mb-4">
         <div class="card-header">
-            <h5 class="mb-0">Taxas de Imposto</h5>
+            <h5 class="mb-0">Taxas</h5>
         </div>
         <div class="card-body">
-            <h6>Adicionar Taxa</h6>
-            <form id="addTaxForm">
+            <h6>Cobrar Impostos</h6>
+            <form method="POST" action="governo/newImposto">
                 <div class="form-row">
+                    <div class="form-group col-md-3">
+                        <label for="preco-taxa">Valor (R$)</label>
+                        <input type="number" id="preco-taxa" class="form-control" placeholder="Valor da taxa" required>
+                    </div>
                     <div class="form-group col-md-3">
                         <label for="destinatario-taxa">Destinatário</label>
                         <select id="destinatario-taxa" class="form-control" required>
@@ -113,19 +117,20 @@
                         </select>
                     </div>
                     <div class="form-group col-md-3">
-                        <label for="nome-taxa">Nome da Taxa</label>
-                        <input type="text" id="nome-taxa" class="form-control" placeholder="Nome da taxa" required>
+                        <label>Tipo de Imposto</label>
+                        <select id="destinatario-taxa" class="form-control" required>
+                            <option value="" disabled selected>Selecione</option>
+                            <option value="IPTU">IPTU</option>
+                            <option value="IPVA">IPVA</option>
+                            <option value="ICMS">PIS</option>
+                        </select>
                     </div>
                     <div class="form-group col-md-3">
-                        <label for="preco-taxa">Valor (R$)</label>
-                        <input type="number" id="preco-taxa" class="form-control" placeholder="Valor da taxa" required>
-                    </div>
-                    <div class="form-group col-md-3">
-                        <label for="descricao-taxa">Descrição</label>
-                        <input type="text" id="descricao-taxa" class="form-control" placeholder="Descrição da taxa">
+                        <label for="preco-taxa">ID</label>
+                        <input type="number" id="preco-taxa" class="form-control" placeholder="ID" required>
                     </div>
                 </div>
-                <button type="button" class="btn btn-primary btn-block" onclick="addTax()">Salvar Taxa</button>
+                <button type="submit" class="btn btn-primary btn-block">Cobrar</button>
             </form>
             <hr>
             <h6>Taxas Ativas</h6>
@@ -133,8 +138,6 @@
         </div>
     </div>
 </div>
-
-
 
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
