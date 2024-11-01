@@ -3,7 +3,8 @@
 }
 
 .nav-link.active { 
-    font-weight: bold; color: #007bff !important; 
+    font-weight: bold; 
+    color: #007bff !important; 
 }
 
 .card { 
@@ -13,3 +14,4 @@
 .hidden-section { 
     display: none; 
 }
+
