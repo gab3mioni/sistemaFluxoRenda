@@ -20,36 +20,45 @@ Antes de começar, você precisará ter os seguintes itens instalados na sua má
 
 Siga os passos abaixo para configurar o ambiente de desenvolvimento:
 
-1. Clone o repositório:
+1. Navegue até o diretório do WampServer ou XAMPP, se instalou com as configurações padrões, provavelmente será:
+```bash
+cd C:\wamp64\www
+```
+ou
+```bash
+cd C:\xampp\htdocs
+```
+
+2. Clone o repositório:
    ```bash
    git clone https://github.com/gab3mioni/sistemaFluxoRenda.git
    ```
 
-2. Navegue até o diretório do projeto:
+3. Navegue até o diretório do projeto:
    ```bash
    cd sistemaFluxoRenda
    ```
 
-3. Instale as dependências com Composer:
+4. Instale as dependências com Composer:
    ```bash
    composer install
    ```
 
-4. Configure o banco de dados no arquivo `config/config.php` com suas credenciais.
+5. Configure o banco de dados no arquivo `config/config.php` com suas credenciais.
 
-5. Execute o arquivo `init_database.sql` para criar a estrutura do banco de dados:
+6. Execute o arquivo `init_database.sql` para criar a estrutura do banco de dados:
    ```sql
    -- Execute as instruções contidas no arquivo init_database.sql
    ```
 
-6. Execute o arquivo `seed_database.sql` para semear o banco de dados com dados fictícios:
+7. Execute o arquivo `seed_database.sql` para semear o banco de dados com dados fictícios:
    ```sql
    -- Execute as instruções contidas no arquivo seed_database.sql
    ```
 
 7. Inicie o WampServer ou XAMPP e acesse o projeto pelo navegador:
    ```
-   http://localhost/sistemaFluxoRenda/public
+   http://localhost/sistemaFluxoRenda/public/
    ```
 
 Agora você deve ser capaz de acessar a aplicação e interagir com as funcionalidades do sistema.
