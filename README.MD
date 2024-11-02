@@ -21,13 +21,13 @@ Antes de começar, você precisará ter os seguintes itens instalados na sua má
 Siga os passos abaixo para configurar o ambiente de desenvolvimento:
 
 1. Navegue até o diretório do WampServer ou XAMPP, se instalou com as configurações padrões, provavelmente será:
-```bash
-cd C:\wamp64\www
-```
-ou
-```bash
-cd C:\xampp\htdocs
-```
+   ```bash
+   cd C:\wamp64\www 
+   ```
+   ou
+   ```bash
+   cd C:\xampp\htdocs
+   ```
 
 2. Clone o repositório:
    ```bash
