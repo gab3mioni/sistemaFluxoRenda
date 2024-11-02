@@ -24,11 +24,11 @@ class FamiliaController extends Controller
     {
         $id = $this->authService->isAuthenticated();
 
-        $saldo = $this->familiaModel->getSaldo();
-        $renda = $this->familiaModel->getRenda();
-        $consumo = $this->familiaModel->getConsumo();
-        $investimento = $this->familiaModel->getInvestimento();
-        $beneficio = $this->familiaModel->getBeneficio();
+        $saldo = $this->familiaModel->getSaldo($id);
+        $renda = $this->familiaModel->getRenda($id);
+        $consumo = $this->familiaModel->getConsumo($id);
+        $investimento = $this->familiaModel->getInvestimento($id);
+        $beneficio = $this->familiaModel->getBeneficio($id);
         $historicoTransacoes = $this->familiaModel->getHistoricoTransacoes($id);
 
         $this->view('familia', [
@@ -39,6 +39,11 @@ class FamiliaController extends Controller
             'beneficio' => $beneficio,
             'historicoTransacoes' => $historicoTransacoes
         ]);
+    }
+
+    public function logout(): void
+    {
+        $this->authService->logout();
     }
 
     public function newTransacao(): void

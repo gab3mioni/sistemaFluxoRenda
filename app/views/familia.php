@@ -10,6 +10,8 @@
 <body>
 <div class="container py-4">
 
+    <a class="nav-link" href="familia/logout">Sair</a>
+
     <div class="row mb-4">
         <div class="col-12">
             <div class="card bg-white">
