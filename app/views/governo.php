@@ -9,6 +9,7 @@
   
 </head>
 <body>
+
 <nav class="navbar navbar-expand-lg navbar-light bg-light mb-4">
     <a class="navbar-brand" href="#">Dashboard do Governo</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
@@ -49,11 +50,15 @@
                 <tbody>
                 <tr>
                     <td>Famílias</td>
+                    <!-- NÃO MEXER NO CÓDIGO A SEGUIR -->
                     <td>R$ <?= number_format($somaImpostosFamilia, 2, ',', '.') ?></td>
+                    <!-- NÃO MEXER NO CÓDIGO ACIMA -->
                 </tr>
                 <tr>
                     <td>Empresas</td>
+                    <!-- NÃO MEXER NO CÓDIGO A SEGUIR -->
                     <td>R$ <?= number_format($somaImpostosEmpresa, 2, ',', '.') ?></td>
+                    <!-- NÃO MEXER NO CÓDIGO ACIMA -->
                 </tr>
                 </tbody>
             </table>
@@ -89,12 +94,14 @@
             <hr>
             <div class="list-group">
                 <h6>Benefícios Ativos</h6>
+                <!-- NÃO MEXER NO CÓDIGO A SEGUIR -->
                 <?php foreach ($beneficiosFamilia as $beneficio): ?>
                     <p>Nome: <?= htmlspecialchars($beneficio['destinatario_nome']) ?></p>
                     <p>Valor: R$ <?= number_format($beneficio['valor'], 2, ',', '.') ?></p>
                     <p>Data: <?= date("d/m/Y H:i", strtotime($beneficio['data_transacao'])) ?></p>
                     <hr>
                 <?php endforeach; ?>
+            <!-- NÃO MEXER NO CÓDIGO ACIMA -->
             </div>
         </div>
     </div>
@@ -133,9 +140,10 @@
     </div>
 </div>
 
+
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<script src="assets/js/governo.js"></script>
+<script src="assets/js/governo/governo.js"></script>
 </body>
 </html>
