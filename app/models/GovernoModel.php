@@ -103,7 +103,7 @@ class GovernoModel
     public function atualizarBeneficio(int $id, float $valor): bool
     {
         try {
-            $saldoBeneficioAtual = $this->familiaModel->getBeneficio();
+            $saldoBeneficioAtual = $this->familiaModel->getBeneficio($id);
 
             if ($this->transacaoValidator->validateSaldo($valor)) {
                 $novoSaldoBeneficio = $saldoBeneficioAtual + $valor;
