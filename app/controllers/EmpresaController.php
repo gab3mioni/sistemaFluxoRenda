@@ -24,12 +24,12 @@ class EmpresaController extends Controller
     {
         $id = $this->authService->isAuthenticated();
 
-        $saldo = $this->empresaModel->getSaldo();
-        $receita = $this->empresaModel->getReceita();
-        $despesa = $this->empresaModel->getDespesa();
-        $investimento = $this->empresaModel->getInvestimento();
-        $impostos = $this->empresaModel->getImpostos();
-        $beneficios = $this->empresaModel->getBeneficios();
+        $saldo = $this->empresaModel->getSaldo($id);
+        $receita = $this->empresaModel->getReceita($id);
+        $despesa = $this->empresaModel->getDespesa($id);
+        $investimento = $this->empresaModel->getInvestimento($id);
+        $impostos = $this->empresaModel->getImpostos($id);
+        $beneficios = $this->empresaModel->getBeneficios($id);
 
         $this->view('empresa', [
             'saldo' => $saldo,
@@ -41,19 +41,25 @@ class EmpresaController extends Controller
         ]);
     }
 
+    public function logout(): void
+    {
+        $this->authService->logout();
+    }
+
     public function newSalario(): void
     {
         if($_SERVER['REQUEST_METHOD'] == "POST") {
-            $id = filter_input(INPUT_POST, 'id', FILTER_SANITIZE_NUMBER_INT);
+            $id_familia = filter_input(INPUT_POST, 'id', FILTER_SANITIZE_NUMBER_INT);
             $valor = filter_input(INPUT_POST, 'valor', FILTER_VALIDATE_FLOAT);
             $tipo = "salario";
 
-            if (!$id || !$valor || $valor <= 0) {
+
+            if (!$id_familia || !$valor || $valor <= 0) {
                 echo "Dados inválidos. Verifique e tente novamente.";
                 return;
             }
 
-            $result = $this->empresaModel->pagarSalario($id, $valor, $tipo);
+            $result = $this->empresaModel->pagarSalario($id_familia, $valor, $tipo);
 
             if ($result) {
                 echo "Transação realizada com sucesso!";
