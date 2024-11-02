@@ -101,11 +101,6 @@ class GovernoController extends Controller {
             $tipo = htmlspecialchars(trim($_POST['tipo'] ?? ''), ENT_QUOTES, 'UTF-8');
             $valor = filter_input(INPUT_POST, 'valor', FILTER_VALIDATE_FLOAT);
 
-            var_dump($_POST);
-            var_dump($id);
-            var_dump($tipo);
-            var_dump($valor);
-
             if (!$id || !$tipo || !$valor) {
                 echo "Dados inválidos. Verifique e tente novamente";
                 return;
