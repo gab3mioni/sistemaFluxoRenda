@@ -30,6 +30,7 @@ class EmpresaController extends Controller
         $investimento = $this->empresaModel->getInvestimento($id);
         $impostos = $this->empresaModel->getImpostos($id);
         $beneficios = $this->empresaModel->getBeneficios($id);
+        $historicoTransacoes = $this->empresaModel->getHistoricoTransacoes($id);
 
         $this->view('empresa', [
             'saldo' => $saldo,
@@ -37,7 +38,8 @@ class EmpresaController extends Controller
             'despesa' => $despesa,
             'investimento' => $investimento,
             'impostos' => $impostos,
-            'beneficios' => $beneficios
+            'beneficios' => $beneficios,
+            'historicoTransacoes' => $historicoTransacoes
         ]);
     }
 
@@ -66,6 +68,32 @@ class EmpresaController extends Controller
                 header('Location: ' . UrlHelper::base_url('empresa'));
             } else {
                 echo "Falha na transação. Verifique os dados e tente novamente.";
+                header('Location: ' . UrlHelper::base_url('empresa'));
+            }
+        } else {
+            echo "Método não permitido.";
+            header('Location: ' . UrlHelper::base_url('empresa'));
+        }
+    }
+
+    public function newInvestimento(): void
+    {
+        if($_SERVER['REQUEST_METHOD'] == "POST") {
+            $valor = filter_input(INPUT_POST, 'valor', FILTER_VALIDATE_FLOAT);
+            $tipo = filter_input(INPUT_POST, 'tipo', FILTER_SANITIZE_SPECIAL_CHARS);
+
+            if (!$tipo || !$valor || $valor <= 0) {
+                echo "Dados inválidos. Verifique e tente novamente.";
+                return;
+            }
+
+            $result = $this->empresaModel->setInvestimentoEmpresa($tipo, $valor);
+
+            if ($result) {
+                echo "Investimento realizado com sucesso!";
+                header('Location: ' . UrlHelper::base_url('empresa'));
+            } else {
+                echo "Falha no investimento. Verifique os dados e tente novamente.";
                 header('Location: ' . UrlHelper::base_url('empresa'));
             }
         } else {
