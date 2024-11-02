@@ -14,6 +14,7 @@ class EmpresaModel
     private $authService;
     private $transacaoValidator;
     private $familiaModel;
+    private $id;
 
     public function __construct(AuthService $authService, TransacaoValidator $transacaoValidator)
     {
@@ -22,61 +23,58 @@ class EmpresaModel
         $this->authService = $authService;
         $this->transacaoValidator = $transacaoValidator;
         $this->familiaModel = new FamiliaModel($this->authService, $this->transacaoValidator);
+
+        $this->id = $this->authService->isAuthenticated();
     }
 
-    public function getSaldo(): float
+    public function getSaldo($id): float
     {
-        $id = $this->authService->isAuthenticated();
         $query = $this->pdo->prepare("SELECT saldo FROM empresas WHERE id = :id");
         $query->bindParam(":id", $id);
         $query->execute();
         return $query->fetchColumn();
     }
 
-    public function getReceita(): float
+    public function getReceita($id): float
     {
-        $id = $this->authService->isAuthenticated();
         $query = $this->pdo->prepare("SELECT receita FROM empresas WHERE id = :id");
         $query->bindParam(":id", $id);
         $query->execute();
         return $query->fetchColumn();
     }
 
-    public function getDespesa(): float
+    public function getDespesa($id): float
     {
-        $id = $this->authService->isAuthenticated();
         $query = $this->pdo->prepare("SELECT despesa FROM empresas WHERE id = :id");
         $query->bindParam(":id", $id);
         $query->execute();
         return $query->fetchColumn();
     }
 
-    public function getInvestimento(): float
+    public function getInvestimento($id): float
     {
-        $id = $this->authService->isAuthenticated();
         $query = $this->pdo->prepare("SELECT investimento FROM empresas WHERE id = :id");
         $query->bindParam(":id", $id);
         $query->execute();
         return $query->fetchColumn();
     }
 
-    public function getImpostos(): float
+    public function getImpostos($id): float
     {
-        $id = $this->authService->isAuthenticated();
         $query = $this->pdo->prepare("SELECT imposto FROM empresas WHERE id = :id");
         $query->bindParam(":id", $id);
         $query->execute();
         return $query->fetchColumn();
     }
 
-    public function getBeneficios(): float
+    public function getBeneficios($id): float
     {
-        $id = $this->authService->isAuthenticated();
         $query = $this->pdo->prepare("SELECT beneficio_governo FROM empresas WHERE id = :id");
         $query->bindParam(":id", $id);
         $query->execute();
         return $query->fetchColumn();
     }
+
 
     public function pagarSalario(int $id_familia, float $valor, string $tipo_transacao): bool
     {
@@ -84,7 +82,7 @@ class EmpresaModel
             $this->pdo->beginTransaction();
 
             $id_empresa = $this->authService->isAuthenticated();
-            $saldoAtual = $this->getSaldo();
+            $saldoAtual = $this->getSaldo($id_empresa);
 
             if ($this->transacaoValidator->validateSaldo($saldoAtual)) {
                 if ($this->transacaoValidator->validateValorInserido($valor)) {
@@ -113,7 +111,7 @@ class EmpresaModel
     public function atualizarSaldoEmpresa(int $id, float $valor): bool
     {
         try {
-            $saldoAtual = $this->getSaldo();
+            $saldoAtual = $this->getSaldo($id);
 
             if ($this->transacaoValidator->validateSaldo($saldoAtual)) {
                 $novoSaldo = $saldoAtual - $valor;
@@ -140,7 +138,7 @@ class EmpresaModel
     public function atualizarDespesasEmpresa(int $id, float $valor): bool
     {
         try {
-            $despesasAtual = $this->getDespesa();
+            $despesasAtual = $this->getDespesa($id);
 
             $despesaNovo = $despesasAtual + $valor;
 
@@ -160,7 +158,7 @@ class EmpresaModel
     public function atualizarSaldoFamilia(int $id, float $valor): bool
     {
         try {
-            $saldoAtual = $this->familiaModel->getSaldo();
+            $saldoAtual = $this->familiaModel->getSaldo($id);
             $novoSaldo = $saldoAtual + $valor;
 
             $query = $this->pdo->prepare("UPDATE familias SET saldo = :novoSaldo WHERE id = :id");
