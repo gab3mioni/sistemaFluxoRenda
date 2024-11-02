@@ -2,12 +2,14 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <title>Família | Sistema de Fluxo de Renda</title>
+    <title>Empresa | Sistema de Fluxo de Renda</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
 </head>
 <body>
 <div class="container py-4">
+
+    <a class="nav-link" href="empresa/logout">Sair</a>
 
     <div class="row mb-4">
         <div class="col-12">
