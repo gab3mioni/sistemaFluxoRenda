@@ -67,6 +67,28 @@ class GovernoModel
         return $query->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function showImpostos($tipo): array
+    {
+        $query = $this->pdo->prepare("
+        SELECT 
+            COALESCE(f.nome, e.nome) AS destinatario_nome,
+            tg.valor,
+            tg.tipo_imposto,
+            tg.data_transacao,
+            CASE
+                WHEN tg.id_familia IS NOT NULL THEN 'familia'
+                WHEN tg.id_empresa IS NOT NULL THEN 'empresa'
+            END AS tipo_destinatario
+        FROM transacao_governo tg
+        LEFT JOIN familias f ON tg.id_familia = f.id
+        LEFT JOIN empresas e ON tg.id_empresa = e.id
+        WHERE tg.tipo_transacao = 'imposto'
+    ");
+
+        $query->execute();
+        return $query->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     public function setBeneficio(int $id, string $destinatario, float $valor): bool
     {
         try {
@@ -89,17 +111,20 @@ class GovernoModel
                     $atualizado = false;
 
                     if ($destinatario === 'familia') {
-                        $atualizado = $this->atualizarBeneficioFamilia($id, $valor);
+                        $atualizado = $this->atualizarBeneficioFamilia($id, $valor) && $this->atualizarSaldoFamilia($id, $valor);
                     }
 
                     if ($destinatario === 'empresa') {
-                        $atualizado = $this->atualizarBeneficioEmpresa($id, $valor);
+                        if ($this->atualizarBeneficioEmpresa($id, $valor) && $this->atualizarSaldoEmpresa($id, $tipoTransacao, $valor)) {
+                            $atualizado = true;
+                        }
                     }
 
                     if (!$atualizado) {
                         $this->pdo->rollBack();
                         return false;
                     }
+
                     $this->pdo->commit();
                     return true;
                 }
@@ -195,7 +220,7 @@ class GovernoModel
                 $query->bindParam(":tipo_imposto", $tipo, PDO::PARAM_STR);
                 $result = $query->execute();
 
-                if ($result) { // adicionar inserção de imposto para empresa com atualizarImposto
+                if ($result && $this->atualizarImpostosEmpresa($id, $valor) && $this->atualizarSaldoEmpresa($id, $tipoTransacao, $valor)) {
                     $this->pdo->commit();
                     return true;
                 }
@@ -206,6 +231,78 @@ class GovernoModel
             $this->pdo->rollBack();
             return false;
         } catch (InvalidArgumentException $e) {
+            return false;
+        }
+    }
+
+    public function atualizarImpostosEmpresa(int $id, float $valor): bool
+    {
+        try {
+            $impostoAtual = $this->empresaModel->getImpostos($id);
+
+            if ($this->transacaoValidator->validateSaldo($valor)) {
+                $novoImposto = $impostoAtual + $valor;
+
+                $query = $this->pdo->prepare("UPDATE empresas SET imposto = :novoImposto WHERE id = :id");
+                $query->bindParam(":novoImposto", $novoImposto, PDO::PARAM_STR);
+                $query->bindParam(":id", $id, PDO::PARAM_INT);
+
+                return $query->execute();
+            }
+            return false;
+        } catch (PDOException $e) {
+            return false;
+        }
+    }
+
+    public function atualizarSaldoEmpresa(int $id, string $tipo, float $valor): bool
+    {
+        try {
+            $empresaModel = new EmpresaModel($this->authService, $this->transacaoValidator);
+            $saldoAtual = $empresaModel->getSaldo($id);
+
+            if ($tipo === 'imposto') {
+                $novoSaldo = $saldoAtual - $valor;
+            } else if ($tipo === 'beneficio') {
+                $novoSaldo = $saldoAtual + $valor;
+            }
+
+            $query = $this->pdo->prepare("UPDATE empresas SET saldo = :novoSaldo WHERE id = :id");
+            $query->bindParam(":novoSaldo", $novoSaldo);
+            $query->bindParam(":id", $id, PDO::PARAM_INT);
+            $query->execute();
+
+            return true;
+        } catch (Exception $e) {
+            echo "Erro: " . $e->getMessage();
+            return false;
+        }
+    }
+
+    public function atualizarSaldoFamilia(int $id, float $valor): bool
+    {
+        try {
+            $saldoAtual = $this->familiaModel->getSaldo($id);
+
+            if ($this->transacaoValidator->validateSaldo($saldoAtual)) {
+
+                $novoSaldo = $saldoAtual + $valor;
+
+                if ($novoSaldo >= 0) {
+                    $query = $this->pdo->prepare("UPDATE familias SET saldo = :novoSaldo WHERE id = :id");
+                    $query->bindParam(":novoSaldo", $novoSaldo);
+                    $query->bindParam(":id", $id, PDO::PARAM_INT);
+                    $query->execute();
+
+                    return true;
+                } else {
+                    return false;
+                }
+            } else {
+                return false;
+            }
+        } catch (Exception $e) {
+            echo "Erro: " . $e->getMessage();
             return false;
         }
     }

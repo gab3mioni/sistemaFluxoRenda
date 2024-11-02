@@ -28,6 +28,9 @@ class GovernoController extends Controller {
         $beneficiosFamilia = $this->governoModel->showBeneficios('familia');
         $beneficiosEmpresa = $this->governoModel->showBeneficios('empresa');
 
+        $impostoFamilia = $this->governoModel->showImpostos('familia');
+        $impostoEmpresa = $this->governoModel->showImpostos('empresa');
+
         $somaImpostosFamilia = $this->somaImpostosFamilia($impostoFamilias);
         $somaImpostosEmpresa = $this->somaImpostosEmpresas($impostoEmpresas);
 
@@ -37,6 +40,8 @@ class GovernoController extends Controller {
             'somaImpostosEmpresa' => $somaImpostosEmpresa,
             'beneficiosFamilia' => $beneficiosFamilia,
             'beneficiosEmpresa' => $beneficiosEmpresa,
+            'impostosFamilia' => $impostoFamilia,
+            'impostosEmpresas' => $impostoEmpresa,
         ]);
     }
 
