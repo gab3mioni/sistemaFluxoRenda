@@ -143,45 +143,6 @@
             </div>
         </div>
 
-        <div class="col-md-12">
-            <div class="card h-100">
-                <div class="card-header bg-warning ">
-                    <h5 class="card-title mb-0">
-                        <i class="bi bi-receipt me-2"></i>
-                        Impostos Pendentes
-                    </h5>
-                </div>
-                <div class="card-body">
-                    <div id="sem-impostos" class="text-center py-4" style="display: none;">
-                        <i class="bi bi-check-circle text-success" style="font-size: 2rem;"></i>
-                        <p class="mt-3 mb-0">Não há impostos pendentes para pagamento.</p>
-                    </div>
-
-                    <div id="com-impostos">
-                        <!-- NÃO MEXER NO METHOD E ACTION DO FORM -->
-                        <form method="POST" action="empresa/pagarImposto">
-                            <div class="mb-3">
-                                <label class="form-label">Data da Cobrança</label>
-                                <input type="text" class="form-control" id="dataCobranca">
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label">Valor</label>
-                                <div class="input-group">
-                                    <span class="input-group-text">R$</span>
-                                    <input type="number" name="valorImposto" class="form-control">
-                                </div>
-                            </div>
-                            <button type="submit" class="btn btn-warning w-100">
-                                <i class="bi bi-cash-coin me-2"></i>
-                                Pagar Imposto
-                            </button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <div class="card bg-light my-4">
         <div class="card-header">
             <h4>Histórico de Transações</h4>
