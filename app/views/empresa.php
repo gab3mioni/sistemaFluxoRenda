@@ -120,7 +120,7 @@
                 <div class="card-body">
                     <!-- NÃO MEXER NO METHOD E ACTION DO FORM -->
                     <!-- NÃO MEXER NO NAME="" DOS INPUT -->
-                    <form method="POST" action="familia/newInvestimento">
+                    <form method="POST" action="empresa/newInvestimento">
                         <div class="mb-3">
                             <label class="form-label">Tipo de Investimento</label>
                             <select class="form-select" name="tipo" required>
@@ -159,7 +159,7 @@
 
                     <div id="com-impostos">
                         <!-- NÃO MEXER NO METHOD E ACTION DO FORM -->
-                        <form method="POST" action="familia/pagarImposto">
+                        <form method="POST" action="empresa/pagarImposto">
                             <div class="mb-3">
                                 <label class="form-label">Data da Cobrança</label>
                                 <input type="text" class="form-control" id="dataCobranca">
@@ -182,7 +182,7 @@
         </div>
     </div>
 
-    <div class="card bg-light mb-4">
+    <div class="card bg-light my-4">
         <div class="card-header">
             <h4>Histórico de Transações</h4>
         </div>
