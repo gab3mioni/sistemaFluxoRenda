@@ -1,16 +1,15 @@
 <?php
-
 namespace App\Controllers;
 
-use Core\Controller;
-use App\Models\FamiliaModel;
+use App\Models\EmpresaModel;
 use App\Services\AuthService;
-use App\Helpers\UrlHelper;
 use App\Services\Validator\TransacaoValidator;
+use App\Helpers\UrlHelper;
+use Core\Controller;
 
-class FamiliaController extends Controller
+class EmpresaController extends Controller
 {
-    private $familiaModel;
+    private $empresaModel;
     private $authService;
     private $transacaoValidator;
 
@@ -18,25 +17,28 @@ class FamiliaController extends Controller
     {
         $this->authService = new AuthService();
         $this->transacaoValidator = new TransacaoValidator();
-        $this->familiaModel = new FamiliaModel($this->authService, $this->transacaoValidator);
+        $this->empresaModel = new EmpresaModel($this->authService, $this->transacaoValidator);
     }
+
     public function index(): void
     {
         $id = $this->authService->isAuthenticated();
 
-        $saldo = $this->familiaModel->getSaldo($id);
-        $renda = $this->familiaModel->getRenda($id);
-        $consumo = $this->familiaModel->getConsumo($id);
-        $investimento = $this->familiaModel->getInvestimento($id);
-        $beneficio = $this->familiaModel->getBeneficio($id);
-        $historicoTransacoes = $this->familiaModel->getHistoricoTransacoes($id);
+        $saldo = $this->empresaModel->getSaldo($id);
+        $receita = $this->empresaModel->getReceita($id);
+        $despesa = $this->empresaModel->getDespesa($id);
+        $investimento = $this->empresaModel->getInvestimento($id);
+        $impostos = $this->empresaModel->getImpostos($id);
+        $beneficios = $this->empresaModel->getBeneficios($id);
+        $historicoTransacoes = $this->empresaModel->getHistoricoTransacoes($id);
 
-        $this->view('familia', [
+        $this->view('empresa', [
             'saldo' => $saldo,
-            'renda' => $renda,
-            'consumo' => $consumo,
+            'receita' => $receita,
+            'despesa' => $despesa,
             'investimento' => $investimento,
-            'beneficio' => $beneficio,
+            'impostos' => $impostos,
+            'beneficios' => $beneficios,
             'historicoTransacoes' => $historicoTransacoes
         ]);
     }
@@ -46,30 +48,31 @@ class FamiliaController extends Controller
         $this->authService->logout();
     }
 
-    public function newTransacao(): void
+    public function newSalario(): void
     {
         if($_SERVER['REQUEST_METHOD'] == "POST") {
-            $id = filter_input(INPUT_POST, 'id', FILTER_SANITIZE_NUMBER_INT);
+            $id_familia = filter_input(INPUT_POST, 'id', FILTER_SANITIZE_NUMBER_INT);
             $valor = filter_input(INPUT_POST, 'valor', FILTER_VALIDATE_FLOAT);
-            $tipo = "consumo";
+            $tipo = "salario";
 
-            if (!$id || !$valor || $valor <= 0) {
+
+            if (!$id_familia || !$valor || $valor <= 0) {
                 echo "Dados inválidos. Verifique e tente novamente.";
                 return;
             }
 
-            $result = $this->familiaModel->setTransacaoFamiliaEmpresa($id, $valor, $tipo);
+            $result = $this->empresaModel->pagarSalario($id_familia, $valor, $tipo);
 
             if ($result) {
                 echo "Transação realizada com sucesso!";
-                header('Location: ' . UrlHelper::base_url('familia'));
+                header('Location: ' . UrlHelper::base_url('empresa'));
             } else {
                 echo "Falha na transação. Verifique os dados e tente novamente.";
-                header('Location: ' . UrlHelper::base_url('familia'));
+                header('Location: ' . UrlHelper::base_url('empresa'));
             }
         } else {
             echo "Método não permitido.";
-            header('Location: ' . UrlHelper::base_url('familia'));
+            header('Location: ' . UrlHelper::base_url('empresa'));
         }
     }
 
@@ -84,18 +87,18 @@ class FamiliaController extends Controller
                 return;
             }
 
-            $result = $this->familiaModel->setInvestimentoFamilia($tipo, $valor);
+            $result = $this->empresaModel->setInvestimentoEmpresa($tipo, $valor);
 
             if ($result) {
                 echo "Investimento realizado com sucesso!";
-                header('Location: ' . UrlHelper::base_url('familia'));
+                header('Location: ' . UrlHelper::base_url('empresa'));
             } else {
                 echo "Falha no investimento. Verifique os dados e tente novamente.";
-                header('Location: ' . UrlHelper::base_url('familia'));
+                header('Location: ' . UrlHelper::base_url('empresa'));
             }
         } else {
             echo "Método não permitido.";
-            header('Location: ' . UrlHelper::base_url('familia'));
+            header('Location: ' . UrlHelper::base_url('empresa'));
         }
     }
 }

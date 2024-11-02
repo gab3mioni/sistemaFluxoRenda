@@ -2,22 +2,20 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <title>Família | Sistema de Fluxo de Renda</title>
+    <title>Empresa | Sistema de Fluxo de Renda</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 <div class="container py-4">
 
-    <a class="nav-link" href="familia/logout">Sair</a>
+    <a class="nav-link" href="empresa/logout">Sair</a>
 
     <div class="row mb-4">
         <div class="col-12">
             <div class="card bg-white">
                 <div class="card-body text-center">
                     <h3 class="card-title">Saldo Atual</h3>
-
                     <p class="display-5">
                         <!-- NÃO MEXER NO CÓDIGO ABAIXO -->
                         R$ <?= number_format($saldo, 2, ',', '.') ?>
@@ -26,26 +24,26 @@
                 </div>
 
                 <div class="row text-center">
-                    <div class="col-md-3">
-                        <h4 class="card-title">Renda</h4>
+                    <div class="col-md-2">
+                        <h4 class="card-title">Receita</h4>
                         <p>
                             <!-- NÃO MEXER NO CÓDIGO ABAIXO -->
-                            R$ <?= number_format($renda, 2, ',', '.') ?>
+                            R$ <?= number_format($receita, 2, ',', '.') ?>
                             <!-- NÃO MEXER NO CÓDIGO ACIMA -->
                         </p>
 
                     </div>
 
-                    <div class="col-md-3">
-                        <h4 class="card-title">Consumo</h4>
+                    <div class="col-md-2">
+                        <h4 class="card-title">Despesas</h4>
                         <p>
                             <!-- NÃO MEXER NO CÓDIGO ABAIXO -->
-                            R$ <?= number_format($consumo, 2, ',', '.') ?>
+                            R$ <?= number_format($despesa, 2, ',', '.') ?>
                             <!-- NÃO MEXER NO CÓDIGO ACIMA -->
                         </p>
                     </div>
 
-                    <div class="col-md-3">
+                    <div class="col-md-2">
                         <h4 class="card-title">Investimentos</h4>
                         <p>
                             <!-- NÃO MEXER NO CÓDIGO ABAIXO -->
@@ -54,14 +52,24 @@
                         </p>
                     </div>
 
-                    <div class="col-md-3">
-                        <h4 class="card-title">Benefícios</h4>
+                    <div class="col-md-2">
+                        <h4 class="card-title">Impostos</h4>
                         <p>
                             <!-- NÃO MEXER NO CÓDIGO ABAIXO -->
-                            R$ <?= number_format($beneficio, 2, ',', '.') ?>
+                            R$ <?= number_format($impostos, 2, ',', '.') ?>
                             <!-- NÃO MEXER NO CÓDIGO ACIMA -->
                         </p>
                     </div>
+
+                    <div class="col-md-2">
+                        <h4 class="card-title">Benefícios</h4>
+                        <p>
+                            <!-- NÃO MEXER NO CÓDIGO ABAIXO -->
+                            R$ <?= number_format($beneficios, 2, ',', '.') ?>
+                            <!-- NÃO MEXER NO CÓDIGO ACIMA -->
+                        </p>
+                    </div>
+
                 </div>
 
             </div>
@@ -69,7 +77,6 @@
     </div>
 
     <div class="row g-4">
-
         <div class="col-md-6">
             <div class="card h-100">
                 <div class="card-header bg-primary text-white">
@@ -81,9 +88,9 @@
                 <div class="card-body">
                     <!-- NÃO MEXER NO METHOD E ACTION DO FORM -->
                     <!-- NÃO MEXER NO NAME="" DOS INPUT -->
-                    <form method="POST" action="familia/newTransacao">
+                    <form method="POST" action="empresa/newSalario">
                         <div class="mb-3">
-                            <label class="form-label">Qual o ID da empresa que você irá transferir?</label>
+                            <label class="form-label">Qual o ID da família que você irá pagar o salário?</label>
                             <input type="number" name="id" class="form-control" required>
                         </div>
                         <div class="mb-3">
@@ -95,7 +102,7 @@
                         </div>
                         <button type="submit" class="btn btn-primary w-100">
                             <i class="bi bi-send me-2"></i>
-                            Realizar Transação
+                            Pagar Salário
                         </button>
                     </form>
                 </div>
@@ -113,11 +120,10 @@
                 <div class="card-body">
                     <!-- NÃO MEXER NO METHOD E ACTION DO FORM -->
                     <!-- NÃO MEXER NO NAME="" DOS INPUT -->
-                    <form method="POST" action="familia/newInvestimento">
+                    <form method="POST" action="empresa/newInvestimento">
                         <div class="mb-3">
                             <label class="form-label">Tipo de Investimento</label>
                             <select class="form-select" name="tipo" required>
-                                <option value="poupanca">Poupança</option>
                                 <option value="investimento">Investimento</option>
                             </select>
                         </div>
@@ -136,8 +142,6 @@
                 </div>
             </div>
         </div>
-
-    </div>
 
     <div class="card bg-light my-4">
         <div class="card-header">
@@ -175,6 +179,5 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-<script src="script.js"></script>
 </body>
 </html>

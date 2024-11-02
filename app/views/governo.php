@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard do Governo</title>
+    <title>Governo | Sistema de Fluxo de Renda</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link href="assets/css/governo/governo.css" rel="stylesheet">
-  
+
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light mb-4">
@@ -18,7 +18,8 @@
     <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ml-auto">
             <li class="nav-item">
-                <a class="nav-link active" href="#arrecadacao" onclick="showSection('arrecadacao', this)">Arrecadação</a>
+                <a class="nav-link active" href="#arrecadacao"
+                   onclick="showSection('arrecadacao', this)">Arrecadação</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="#beneficios" onclick="showSection('beneficios', this)">Benefícios</a>
@@ -70,7 +71,8 @@
                 <div class="form-row">
                     <div class="form-group col-md-4">
                         <label for="valor-beneficio">Valor (R$)</label>
-                        <input type="number" name="valor" class="form-control" placeholder="Valor do benefício" required>
+                        <input type="number" name="valor" class="form-control" placeholder="Valor do benefício"
+                               required>
                     </div>
                     <div class="form-group col-md-4">
                         <label for="destinatario-beneficio">Destinatário</label>
@@ -88,7 +90,7 @@
             </form>
             <hr>
             <div class="list-group">
-                <h6>Benefícios Ativos</h6>
+                <h6>Histórico de benefícios</h6>
                 <?php foreach ($beneficiosFamilia as $beneficio): ?>
                     <p>Nome: <?= htmlspecialchars($beneficio['destinatario_nome']) ?></p>
                     <p>Valor: R$ <?= number_format($beneficio['valor'], 2, ',', '.') ?></p>
@@ -128,7 +130,17 @@
                 <button type="submit" class="btn btn-primary btn-block">Cobrar</button>
             </form>
             <hr>
-            <h6>Taxas Ativas</h6>
+            <div class="list-group">
+                <h6>Histórico de Impostos</h6>
+            </div>
+            <hr>
+            <?php foreach ($impostosFamilia as $imposto): ?>
+                <p>Nome: <?= htmlspecialchars($imposto['destinatario_nome']) ?></p>
+                <p>Valor: R$ <?= number_format($imposto['valor'], 2, ',', '.') ?></p>
+                <p>Tipo: <?= htmlspecialchars($imposto['tipo_imposto']) ?></p>
+                <p>Data: <?= date("d/m/Y H:i", strtotime($imposto['data_transacao'])) ?></p>
+                <hr>
+            <?php endforeach; ?>
         </div>
     </div>
 </div>
@@ -136,6 +148,6 @@
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<script src="assets/js/governo.js"></script>
+<script src="assets/js/governo/governo.js"></script>
 </body>
 </html>
