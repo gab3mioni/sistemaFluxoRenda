@@ -147,46 +147,34 @@ class GovernoModel extends BaseModel
             $this->pdo->beginTransaction();
 
             $tipoTransacao = 'imposto';
+            $saldoAtualEmpresa = $this->entityDataFetcher->getSaldo($id, 'empresa');
 
             if(!$this->transacaoValidator->validateValorInserido($valor)) {
                 $this->pdo->rollBack();
                 return false;
             }
 
-            if(!$this->executeImposto($id, $valor, $tipo, $tipoTransacao)) {
+            if(!$this->transacaoValidator->validateTransacao($saldoAtualEmpresa, $valor)) {
+                $this->pdo->rollBack();
+                return false;
+            }
+
+            if(!$this->executeImposto($id, $valor, $tipo, $tipoTransacao, $saldoAtualEmpresa)) {
                 $this->pdo->rollBack();
                 return false;
             }
 
             $this->pdo->commit();
             return true;
-
-            /*if ($this->transacaoValidator->validateValorInserido($valor)) {
-                $sql = "INSERT INTO transacao_governo (id_empresa, valor, tipo_transacao, tipo_imposto) 
-                    VALUES (:id_empresa, :valor, :tipo_transacao, :tipo_imposto)";
-                $query = $this->pdo->prepare($sql);
-                $query->bindParam(":id_empresa", $id, PDO::PARAM_INT);
-                $query->bindParam(":valor", $valor, PDO::PARAM_STR);
-                $query->bindParam(":tipo_transacao", $tipoTransacao, PDO::PARAM_STR);
-                $query->bindParam(":tipo_imposto", $tipo, PDO::PARAM_STR);
-                $result = $query->execute();
-
-                if ($result && $this->atualizarImpostosEmpresa($id, $valor) && $this->atualizarSaldoEmpresa($id, $tipoTransacao, $valor)) {
-                    $this->pdo->commit();
-                    return true;
-                }
-            } */
         } catch (PDOException $e) {
             $this->pdo->rollBack();
             return false;
         }
     }
 
-    private function executeImposto(int $id, float $valor, string $tipo, string $tipoTransacao): bool
+    private function executeImposto(int $id, float $valor, string $tipo, string $tipoTransacao, float $saldoAtualEmpresa): bool
     {
         try {
-            $saldoAtualEmpresa = $this->entityDataFetcher->getSaldo($id, 'empresa');
-
             $saldoAtualImposto = $this->entityDataFetcher->getImposto($id, 'empresa');
 
             $query = $this->executeQuery("
