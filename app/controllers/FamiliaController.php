@@ -2,6 +2,11 @@
 
 namespace App\Controllers;
 
+use App\Services\DatabaseService;
+use App\Services\EntityDataFetcher;
+use App\Services\Updater\EmpresaUpdater;
+use App\Services\Updater\FamiliaUpdater;
+use PDO;
 use Core\Controller;
 use App\Models\FamiliaModel;
 use App\Services\AuthService;
@@ -13,22 +18,36 @@ class FamiliaController extends Controller
     private $familiaModel;
     private $authService;
     private $transacaoValidator;
+    private $databaseService;
+    private $empresaUpdater;
+    private $familiaUpdater;
+    private $entityDataFetcher;
+    private $pdo;
 
     public function __construct()
     {
+        global $pdo;
+        $this->pdo = $pdo;
         $this->authService = new AuthService();
         $this->transacaoValidator = new TransacaoValidator();
-        $this->familiaModel = new FamiliaModel($this->authService, $this->transacaoValidator);
+        $this->databaseService = new DatabaseService($this->pdo);
+        $this->entityDataFetcher = new EntityDataFetcher($this->pdo);
+        $this->empresaUpdater = new EmpresaUpdater($this->databaseService, $this->transacaoValidator);
+        $this->familiaUpdater = new FamiliaUpdater($this->databaseService, $this->transacaoValidator);
+        $this->familiaModel = new FamiliaModel($this->pdo, $this->authService, $this->transacaoValidator,
+            $this->empresaUpdater, $this->familiaUpdater, $this->entityDataFetcher);
     }
+
     public function index(): void
     {
         $id = $this->authService->isAuthenticated();
+        $tipo = 'familia';
 
-        $saldo = $this->familiaModel->getSaldo($id);
+        $saldo = $this->entityDataFetcher->getSaldo($id, $tipo);
         $renda = $this->familiaModel->getRenda($id);
         $consumo = $this->familiaModel->getConsumo($id);
-        $investimento = $this->familiaModel->getInvestimento($id);
-        $beneficio = $this->familiaModel->getBeneficio($id);
+        $investimento = $this->entityDataFetcher->getInvestimento($id, $tipo);
+        $beneficio = $this->entityDataFetcher->getBeneficio($id, $tipo);
         $historicoTransacoes = $this->familiaModel->getHistoricoTransacoes($id);
 
         $this->view('familia', [
@@ -48,7 +67,7 @@ class FamiliaController extends Controller
 
     public function newTransacao(): void
     {
-        if($_SERVER['REQUEST_METHOD'] == "POST") {
+        if ($_SERVER['REQUEST_METHOD'] == "POST") {
             $id = filter_input(INPUT_POST, 'id', FILTER_SANITIZE_NUMBER_INT);
             $valor = filter_input(INPUT_POST, 'valor', FILTER_VALIDATE_FLOAT);
             $tipo = "consumo";
@@ -58,7 +77,7 @@ class FamiliaController extends Controller
                 return;
             }
 
-            $result = $this->familiaModel->setTransacaoFamiliaEmpresa($id, $valor, $tipo);
+            $result = $this->familiaModel->setConsumoFamilia($id, $valor, $tipo);
 
             if ($result) {
                 echo "Transação realizada com sucesso!";
@@ -75,7 +94,7 @@ class FamiliaController extends Controller
 
     public function newInvestimento(): void
     {
-        if($_SERVER['REQUEST_METHOD'] == "POST") {
+        if ($_SERVER['REQUEST_METHOD'] == "POST") {
             $valor = filter_input(INPUT_POST, 'valor', FILTER_VALIDATE_FLOAT);
             $tipo = filter_input(INPUT_POST, 'tipo', FILTER_SANITIZE_SPECIAL_CHARS);
 

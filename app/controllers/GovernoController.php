@@ -1,25 +1,47 @@
 <?php
+
 namespace App\Controllers;
 
 use App\Helpers\UrlHelper;
 use App\Models\GovernoModel;
 use App\Services\AuthService;
+use App\Services\DatabaseService;
+use App\Services\EntityDataFetcher;
+use App\Services\Updater\EmpresaUpdater;
+use App\Services\Updater\FamiliaUpdater;
 use App\Services\Validator\TransacaoValidator;
 use Core\Controller;
 
-class GovernoController extends Controller {
+class GovernoController extends Controller
+{
 
+    private $pdo;
     private $governoModel;
     private $authService;
     private $transacaoValidator;
+    private $databaseService;
+    private $entityDataFetcher;
+    private $empresaUpdater;
+    private $familiaUpdater;
 
 
     public function __construct()
     {
+        global $pdo;
+        $this->pdo = $pdo;
         $this->authService = new AuthService();
         $this->transacaoValidator = new TransacaoValidator();
-        $this->governoModel = new GovernoModel($this->authService, $this->transacaoValidator);
+
+        $this->databaseService = new DatabaseService($this->pdo);
+
+        $this->entityDataFetcher = new EntityDataFetcher($this->pdo);
+
+        $this->empresaUpdater = new EmpresaUpdater($this->databaseService, $this->transacaoValidator);
+        $this->familiaUpdater = new FamiliaUpdater($this->databaseService, $this->transacaoValidator);
+        $this->governoModel = new GovernoModel($this->pdo, $this->authService, $this->transacaoValidator,
+            $this->empresaUpdater, $this->familiaUpdater, $this->entityDataFetcher);
     }
+
     public function index(): void
     {
         $impostoFamilias = $this->governoModel->getImpostoFamilia();
@@ -54,7 +76,7 @@ class GovernoController extends Controller {
     {
         $soma = 0.0;
 
-        foreach($impostoFamilias as $transacao) {
+        foreach ($impostoFamilias as $transacao) {
             $soma += (float)$transacao['valor'];
         }
 
@@ -65,7 +87,7 @@ class GovernoController extends Controller {
     {
         $soma = 0.0;
 
-        foreach($impostoEmpresas as $transacao) {
+        foreach ($impostoEmpresas as $transacao) {
             $soma += (float)$transacao['valor'];
         }
 
@@ -74,7 +96,7 @@ class GovernoController extends Controller {
 
     public function newBeneficio(): void
     {
-        if($_SERVER['REQUEST_METHOD'] == 'POST') {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $id = filter_input(INPUT_POST, 'id', FILTER_SANITIZE_NUMBER_INT);
             $destinatario = htmlspecialchars(trim($_POST['destinatario'] ?? ''), ENT_QUOTES, 'UTF-8');
             $valor = filter_input(INPUT_POST, 'valor', FILTER_VALIDATE_FLOAT);
@@ -86,7 +108,7 @@ class GovernoController extends Controller {
 
             $result = $this->governoModel->setBeneficio($id, $destinatario, $valor);
 
-            if($result) {
+            if ($result) {
                 echo "Transação realizada com sucesso!";
                 header('Location: ' . UrlHelper::base_url('governo'));
             } else {
@@ -101,7 +123,7 @@ class GovernoController extends Controller {
 
     public function newImposto(): void
     {
-        if($_SERVER['REQUEST_METHOD'] == 'POST') {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $id = filter_input(INPUT_POST, 'id', FILTER_SANITIZE_NUMBER_INT);
             $tipo = htmlspecialchars(trim($_POST['tipo'] ?? ''), ENT_QUOTES, 'UTF-8');
             $valor = filter_input(INPUT_POST, 'valor', FILTER_VALIDATE_FLOAT);
@@ -113,7 +135,7 @@ class GovernoController extends Controller {
 
             $result = $this->governoModel->setImposto($id, $tipo, $valor);
 
-            if($result) {
+            if ($result) {
                 echo "Transação realizada com sucesso!";
                 header('Location: ' . UrlHelper::base_url('governo'));
             } else {
