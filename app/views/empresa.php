@@ -148,6 +148,41 @@
             </div>
         </div>
 
+        <div class="col-md-12">
+            <div class="card h-100">
+                <div class="card-header bg-danger text-white">
+                    <h5 class="card-title mb-0">
+                        <i class="bi bi-cash-stack me-2"></i>
+                        Nova Transação
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <!-- NÃO MEXER NO METHOD E ACTION DO FORM -->
+                    <!-- NÃO MEXER NO NAME="" DOS INPUT -->
+                    <form method="POST" action="empresa/newExterno">
+                        <div class="mb-3">
+                            <label class="form-label">Valor</label>
+                            <div class="input-group">
+                                <span class="input-group-text">R$</span>
+                                <input type="number" name="valor" class="form-control" required>
+                            </div>
+                            <div class="my-3">
+                                <label class="form-label">Tipo de transação no mercado externo</label>
+                                <select class="form-select" name="tipo" required>
+                                    <option value="importacao">Importação</option>
+                                    <option value="exportacao">Exportação</option>
+                                </select>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-danger w-100">
+                            <i class="bi bi-send me-2"></i>
+                            Realizar Transação Externa
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
         <div class="card bg-light my-4">
             <div class="card-header">
                 <h4>Histórico de Transações</h4>

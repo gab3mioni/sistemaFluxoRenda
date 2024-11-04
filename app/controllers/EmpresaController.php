@@ -122,4 +122,35 @@ class EmpresaController extends Controller
             header('Location: ' . UrlHelper::base_url('empresa'));
         }
     }
+
+    public function newExterno(): void
+    {
+        if ($_SERVER['REQUEST_METHOD'] == "POST") {
+            $valor = filter_input(INPUT_POST, 'valor', FILTER_VALIDATE_FLOAT);
+            $tipo = filter_input(INPUT_POST, 'tipo', FILTER_SANITIZE_SPECIAL_CHARS);
+
+
+            if (!$tipo || !$valor || $valor <= 0) {
+                echo "Dados inválidos. Verifique e tente novamente.";
+                return;
+            }
+
+            if($tipo === 'importacao') {
+                $result = $this->empresaModel->setImportacao($valor);
+            } else if ($tipo === 'exportacao') {
+                $result = $this->empresaModel->setExportacao($valor);
+            }
+
+            if ($result) {
+                echo "Investimento realizado com sucesso!";
+                header('Location: ' . UrlHelper::base_url('empresa'));
+            } else {
+                echo "Falha no investimento. Verifique os dados e tente novamente.";
+                header('Location: ' . UrlHelper::base_url('empresa'));
+            }
+        } else {
+            echo "Método não permitido.";
+            header('Location: ' . UrlHelper::base_url('empresa'));
+        }
+    }
 }

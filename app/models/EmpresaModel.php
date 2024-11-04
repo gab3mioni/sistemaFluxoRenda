@@ -53,9 +53,12 @@ class EmpresaModel extends BaseModel
     {
         $transacoesFamiliaEmpresa = HistoricoHelper::getTransacoesFamiliaEmpresa($this->pdo, 'empresa', $id_empresa);
         $transacoesSetorFinanceiro = HistoricoHelper::getTransacoesSetorFinanceiro($this->pdo, 'empresa', $id_empresa);
+        $transacoesExterno = HistoricoHelper::getTransacoesSetorExterno($this->pdo, 'empresa', $id_empresa);
         $transacoesGoverno = HistoricoHelper::getTransacoesGoverno($this->pdo, 'empresa', $id_empresa);
 
-        return HistoricoHelper::combinarEOrdenarTransacoes($transacoesFamiliaEmpresa, $transacoesSetorFinanceiro, $transacoesGoverno);
+
+        return HistoricoHelper::combinarEOrdenarTransacoes($transacoesFamiliaEmpresa, $transacoesSetorFinanceiro,
+            $transacoesGoverno, $transacoesExterno);
     }
 
     public function setSalario(int $id_familia, float $valor, string $tipo_transacao): bool
@@ -98,7 +101,8 @@ class EmpresaModel extends BaseModel
             $saldoAtual = $this->entityDataFetcher->getSaldo($id_empresa, 'empresa');
 
             if (!$id_empresa) {
-                throw new \Exception('Usuário não autenticado');
+                $this->pdo->rollBack();
+                return false;
             }
 
             if (!$this->transacaoValidator->validateTransacao($saldoAtual, $valor)) {
@@ -114,6 +118,70 @@ class EmpresaModel extends BaseModel
             $this->pdo->commit();
             return true;
 
+        } catch (\Exception $e) {
+            $this->pdo->rollBack();
+            return false;
+        }
+    }
+
+    public function setImportacao(float $valor)
+    {
+        try {
+            $this->pdo->beginTransaction();
+
+            $id_empresa = $this->authService->isAuthenticated();
+            $saldoAtual = $this->entityDataFetcher->getSaldo($id_empresa, 'empresa');
+            $despesasAtual = $this->getDespesa($id_empresa);
+
+            if(!$id_empresa) {
+                $this->pdo->rollBack();
+                return false;
+            }
+
+            if (!$this->transacaoValidator->validateTransacao($saldoAtual, $valor)) {
+                $this->pdo->rollBack();
+                return false;
+            }
+
+            if(!$this->executeImportacao($id_empresa, $valor, $saldoAtual, $despesasAtual)) {
+                $this->pdo->rollBack();
+                return false;
+            }
+
+            $this->pdo->commit();
+            return true;
+        } catch (\Exception $e) {
+            $this->pdo->rollBack();
+            return false;
+        }
+    }
+
+    public function setExportacao(float $valor)
+    {
+        try {
+            $this->pdo->beginTransaction();
+
+            $id_empresa = $this->authService->isAuthenticated();
+            $saldoAtual = $this->entityDataFetcher->getSaldo($id_empresa, 'empresa');
+            $receitaAtual = $this->entityDataFetcher->getRendaReceita($id_empresa, 'empresa');
+
+            if(!$id_empresa) {
+                $this->pdo->rollBack();
+                return false;
+            }
+
+            if (!$this->transacaoValidator->validateTransacao($saldoAtual, $valor)) {
+                $this->pdo->rollBack();
+                return false;
+            }
+
+            if(!$this->executeExportacao($id_empresa, $valor, $saldoAtual, $receitaAtual)) {
+                $this->pdo->rollBack();
+                return false;
+            }
+
+            $this->pdo->commit();
+            return true;
         } catch (\Exception $e) {
             $this->pdo->rollBack();
             return false;
@@ -176,6 +244,60 @@ class EmpresaModel extends BaseModel
 
             return $this->empresaUpdater->atualizarSaldoEmpresa($id_empresa, $tipo_transacao, $valor, $saldoAtual)
                 && $this->empresaUpdater->atualizarInvestimentoEmpresa($id_empresa, $valor, $investimentoAtual);
+        } catch (\Exception $e) {
+            echo $e->getMessage();
+            return false;
+        }
+    }
+
+    private function executeImportacao(int $id_empresa, float $valor, float $saldoAtual, float $despesasAtual): bool
+    {
+        try {
+            $tipo_transacao = 'importacao';
+
+            $query = $this->executeQuery("
+            INSERT INTO setor_externo (id_empresa, tipo_transacao, valor) 
+            VALUES (:id_empresa, :tipo_transacao, :valor)
+            ", [
+                ':id_empresa' => $id_empresa,
+                ':tipo_transacao' => $tipo_transacao,
+                ':valor' => $valor,
+            ]);
+
+            if(!$query) {
+                return false;
+            }
+
+            return $this->empresaUpdater->atualizarSaldoEmpresa($id_empresa, $tipo_transacao, $valor, $saldoAtual) &&
+                $this->empresaUpdater->atualizarDespesasEmpresa($id_empresa, $valor, $despesasAtual);
+
+        } catch (\Exception $e) {
+            echo $e->getMessage();
+            return false;
+        }
+    }
+
+    private function executeExportacao(int $id_empresa, float $valor, float $saldoAtual, float $receitaAtual): bool
+    {
+        try {
+            $tipo_transacao = 'exportacao';
+
+            $query = $this->executeQuery("
+            INSERT INTO setor_externo (id_empresa, tipo_transacao, valor) 
+            VALUES (:id_empresa, :tipo_transacao, :valor)
+            ", [
+                ':id_empresa' => $id_empresa,
+                ':tipo_transacao' => $tipo_transacao,
+                ':valor' => $valor,
+            ]);
+
+            if(!$query) {
+                return false;
+            }
+
+            return $this->empresaUpdater->atualizarSaldoEmpresa($id_empresa, $tipo_transacao, $valor, $saldoAtual) &&
+                $this->empresaUpdater->atualizarReceitaEmpresa($id_empresa, $valor, $receitaAtual);
+
         } catch (\Exception $e) {
             echo $e->getMessage();
             return false;

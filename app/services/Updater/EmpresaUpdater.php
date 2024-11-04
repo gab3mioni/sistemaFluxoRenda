@@ -24,9 +24,10 @@ class EmpresaUpdater
             return false;
         }
 
-        if ($tipo === 'investimento' || $tipo === 'despesa' || $tipo === 'imposto' || $tipo === 'salario') {
+        if ($tipo === 'investimento' || $tipo === 'despesa' || $tipo === 'imposto' || $tipo === 'salario' ||
+            $tipo === 'importacao') {
             $novoSaldo = $saldoAtual - $valor;
-        } else if ($tipo === 'beneficio' || $tipo === 'consumo') {
+        } else if ($tipo === 'beneficio' || $tipo === 'consumo' || $tipo === 'exportacao') {
             $novoSaldo = $saldoAtual + $valor;
         }
 
