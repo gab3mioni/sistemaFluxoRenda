@@ -170,7 +170,7 @@ class EmpresaModel extends BaseModel
                 return false;
             }
 
-            if (!$this->transacaoValidator->validateTransacao($saldoAtual, $valor)) {
+            if (!$this->transacaoValidator->validateValorInserido($valor)) {
                 $this->pdo->rollBack();
                 return false;
             }
