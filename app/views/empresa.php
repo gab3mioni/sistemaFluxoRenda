@@ -153,7 +153,7 @@
                 <div class="card-header bg-danger text-white">
                     <h5 class="card-title mb-0">
                         <i class="bi bi-cash-stack me-2"></i>
-                        Nova Transação
+                        Nova Transação Externa
                     </h5>
                 </div>
                 <div class="card-body">
