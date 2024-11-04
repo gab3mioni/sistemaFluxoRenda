@@ -4,19 +4,25 @@ namespace App\Services\Validator;
 
 class TransacaoValidator
 {
-    public function validateSaldo(float $saldoAtual): bool
+    public function validateValorInserido(float $valor): bool
     {
-        if ( $saldoAtual > 0 ) {
+        if ( $valor > 0 ) {
             return true;
         }
         return false;
     }
 
-    public function validateValorInserido(float $valorInserido): bool
+    public function validateTransacao(float $saldoAtual, float $valor): bool
     {
-        if ( $valorInserido > 0 ) {
-            return true;
+        if (!$this->validateValorInserido($saldoAtual)) {
+            return false;
         }
-        return false;
+
+        if(!$this->validateValorInserido($valor)){
+            return false;
+        }
+
+
+        return true;
     }
 }
