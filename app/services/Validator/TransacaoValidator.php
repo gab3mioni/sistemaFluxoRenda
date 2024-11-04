@@ -22,6 +22,9 @@ class TransacaoValidator
             return false;
         }
 
+        if( $valor > $saldoAtual ) {
+            return false;
+        }
 
         return true;
     }
