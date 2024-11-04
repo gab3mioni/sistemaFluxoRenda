@@ -15,11 +15,9 @@ class EmpresaModel extends BaseModel
 {
     private $authService;
     private $transacaoValidator;
-    private $familiaModel;
     private $empresaUpdater;
     private $familiaUpdater;
     private $entityDataFetcher;
-    private $tipo;
     private $id;
 
     public function __construct(PDO $pdo, AuthService $authService, TransacaoValidator $transacaoValidator,
@@ -27,7 +25,6 @@ class EmpresaModel extends BaseModel
                                 EntityDataFetcher  $entityDataFetcher)
     {
         parent::__construct($pdo);
-        $this->tipo = 'empresa';
         $this->authService = $authService;
         $this->transacaoValidator = $transacaoValidator;
         $this->empresaUpdater = $empresaUpdater;
