@@ -9,13 +9,17 @@
 <body>
 <div class="container py-4">
 
-    <a class="nav-link" href="empresa/logout">Sair</a>
+    <a class="mb-3 btn btn-primary" href="empresa/logout">Sair</a>
 
     <div class="row mb-4">
         <div class="col-12">
             <div class="card bg-white">
-                <div class="card-body text-center">
-                    <h3 class="card-title">Saldo Atual</h3>
+                <div class="card-header text-center">
+                    <h3>Saldo Atual</h3>
+                </div>
+
+                    <div class="card-body text-center">
+
                     <p class="display-5">
                         <!-- NÃO MEXER NO CÓDIGO ABAIXO -->
                         R$ <?= number_format($saldo, 2, ',', '.') ?>
@@ -23,7 +27,7 @@
                     </p>
                 </div>
 
-                <div class="row text-center">
+                <div class="row text-center justify-content-center align-items-center">
                     <div class="col-md-2">
                         <h4 class="card-title">Receita</h4>
                         <p>
