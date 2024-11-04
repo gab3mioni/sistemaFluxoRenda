@@ -9,13 +9,18 @@
 <body>
 <div class="container py-4">
 
-    <a class="nav-link" href="empresa/logout">Sair</a>
+    <a class="mb-3 btn btn-primary" href="empresa/logout">Sair</a>
 
     <div class="row mb-4">
         <div class="col-12">
             <div class="card bg-white">
+
+                <div class="card-header text-center">
+                    <h3>Saldo Atual</h3>
+                </div>
+
                 <div class="card-body text-center">
-                    <h3 class="card-title">Saldo Atual</h3>
+
                     <p class="display-5">
                         <!-- NÃO MEXER NO CÓDIGO ABAIXO -->
                         R$ <?= number_format($saldo, 2, ',', '.') ?>
@@ -23,7 +28,7 @@
                     </p>
                 </div>
 
-                <div class="row text-center">
+                <div class="row text-center justify-content-center align-items-center">
                     <div class="col-md-2">
                         <h4 class="card-title">Receita</h4>
                         <p>
@@ -143,41 +148,41 @@
             </div>
         </div>
 
-    <div class="card bg-light my-4">
-        <div class="card-header">
-            <h4>Histórico de Transações</h4>
-        </div>
-        <div class="card-body">
-            <table class="table table-bordered">
-                <thead>
-                <tr>
-                    <th>Data</th>
-                    <th>Tipo</th>
-                    <th>Valor (R$)</th>
-                </tr>
-                </thead>
-                <tbody>
-                <!-- NÃO MEXER NO CÓDIGO A SEGUIR -->
-                <?php if (!empty($historicoTransacoes)): ?>
-                    <?php foreach ($historicoTransacoes as $transacao): ?>
-                        <tr>
-                            <td><?= date('d/m/Y H:i', strtotime($transacao['data_transacao'])) ?></td>
-                            <td><?= ucfirst($transacao['tipo_transacao']) ?></td>
-                            <td><?= number_format($transacao['valor'], 2, ',', '.') ?></td>
-                        </tr>
-                    <?php endforeach; ?>
-                <?php else: ?>
+        <div class="card bg-light my-4">
+            <div class="card-header">
+                <h4>Histórico de Transações</h4>
+            </div>
+            <div class="card-body">
+                <table class="table table-bordered">
+                    <thead>
                     <tr>
-                        <td colspan="4" class="text-center">Nenhuma transação encontrada.</td>
+                        <th>Data</th>
+                        <th>Tipo</th>
+                        <th>Valor (R$)</th>
                     </tr>
-                <?php endif; ?>
-                <!-- NÃO MEXER NO CÓDIGO ACIMA -->
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                    <!-- NÃO MEXER NO CÓDIGO A SEGUIR -->
+                    <?php if (!empty($historicoTransacoes)): ?>
+                        <?php foreach ($historicoTransacoes as $transacao): ?>
+                            <tr>
+                                <td><?= date('d/m/Y H:i', strtotime($transacao['data_transacao'])) ?></td>
+                                <td><?= ucfirst($transacao['tipo_transacao']) ?></td>
+                                <td><?= number_format($transacao['valor'], 2, ',', '.') ?></td>
+                            </tr>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <tr>
+                            <td colspan="4" class="text-center">Nenhuma transação encontrada.</td>
+                        </tr>
+                    <?php endif; ?>
+                    <!-- NÃO MEXER NO CÓDIGO ACIMA -->
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
-</div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
