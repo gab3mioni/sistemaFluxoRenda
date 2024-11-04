@@ -48,8 +48,10 @@ class FamiliaModel extends BaseModel
         $transacoesFamiliaEmpresa = HistoricoHelper::getTransacoesFamiliaEmpresa($this->pdo, 'familia', $id_familia);
         $transacoesSetorFinanceiro = HistoricoHelper::getTransacoesSetorFinanceiro($this->pdo, 'familia', $id_familia);
         $transacoesGoverno = HistoricoHelper::getTransacoesGoverno($this->pdo, 'familia', $id_familia);
+        $transacoesExterno = HistoricoHelper::getTransacoesSetorExterno($this->pdo, 'familia', $id_familia);
 
-        return HistoricoHelper::combinarEOrdenarTransacoes($transacoesFamiliaEmpresa, $transacoesSetorFinanceiro, $transacoesGoverno);
+        return HistoricoHelper::combinarEOrdenarTransacoes($transacoesFamiliaEmpresa, $transacoesSetorFinanceiro,
+            $transacoesGoverno, $transacoesExterno);
     }
 
     // Setters
