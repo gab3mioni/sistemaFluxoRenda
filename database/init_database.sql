@@ -38,11 +38,15 @@ CREATE TABLE IF NOT EXISTS familias (
 
 CREATE TABLE IF NOT EXISTS setor_externo (
     id INT AUTO_INCREMENT PRIMARY KEY,
+    id_familia INT,
+    id_empresa INT,
     tipo_transacao ENUM('exportacao', 'importacao') NOT NULL,
     descricao VARCHAR(255),
     valor DECIMAL(15, 2) NOT NULL,
-    data_transacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
+    data_transacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (id_familia) REFERENCES familias(id) ON DELETE CASCADE,
+    FOREIGN KEY (id_empresa) REFERENCES empresas(id) ON DELETE CASCADE
+    );
 
 CREATE TABLE IF NOT EXISTS setor_financeiro (
     id INT AUTO_INCREMENT PRIMARY KEY,
