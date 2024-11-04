@@ -12,13 +12,13 @@ class TransacaoValidator
         return false;
     }
 
-    public function validateTransacao(float $saldoAtual, float $valor): bool
+    public function validateTransacao(float $saldoAtual, float $valorInserido): bool
     {
-        if(!$this->validateValorInserido($valor)){
+        if(!$this->validateValorInserido($valorInserido)){
             return false;
         }
 
-        if( $valor > $saldoAtual ) {
+        if( $valorInserido > $saldoAtual ) {
             return false;
         }
 
