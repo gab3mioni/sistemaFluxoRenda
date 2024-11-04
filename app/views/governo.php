@@ -119,7 +119,7 @@
                             <option value="" disabled selected>Selecione</option>
                             <option value="IPTU">IPTU</option>
                             <option value="IPVA">IPVA</option>
-                            <option value="ICMS">PIS</option>
+                            <option value="PIS">PIS</option>
                         </select>
                     </div>
                     <div class="form-group col-md-3">
