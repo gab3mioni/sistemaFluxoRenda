@@ -14,10 +14,6 @@ class TransacaoValidator
 
     public function validateTransacao(float $saldoAtual, float $valor): bool
     {
-        if (!$this->validateValorInserido($saldoAtual)) {
-            return false;
-        }
-
         if(!$this->validateValorInserido($valor)){
             return false;
         }
