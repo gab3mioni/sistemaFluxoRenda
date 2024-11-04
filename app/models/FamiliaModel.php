@@ -8,7 +8,7 @@ use App\Services\Updater\FamiliaUpdater;
 use PDO;
 use App\Helpers\HistoricoHelper;
 use App\Services\AuthService;
-use App\Services\Validator\TransacaoValidator;
+use App\Services\Transaction\TransacaoValidator;
 use PDOException;
 
 class FamiliaModel extends BaseModel

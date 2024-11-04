@@ -9,7 +9,7 @@ use InvalidArgumentException;
 use PDO;
 use PDOException;
 use App\Services\AuthService;
-use App\Services\Validator\TransacaoValidator;
+use App\Services\Transaction\TransacaoValidator;
 
 class GovernoModel extends BaseModel
 {

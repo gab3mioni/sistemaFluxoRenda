@@ -2,7 +2,7 @@
 
 namespace App\Services\Updater;
 
-use App\Services\Validator\TransacaoValidator;
+use App\Services\Transaction\TransacaoValidator;
 use App\Services\DatabaseService;
 
 class FamiliaUpdater

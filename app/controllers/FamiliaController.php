@@ -11,7 +11,7 @@ use Core\Controller;
 use App\Models\FamiliaModel;
 use App\Services\AuthService;
 use App\Helpers\UrlHelper;
-use App\Services\Validator\TransacaoValidator;
+use App\Services\Transaction\TransacaoValidator;
 
 class FamiliaController extends Controller
 {

@@ -9,7 +9,7 @@ use App\Services\DatabaseService;
 use App\Services\Updater\EmpresaUpdater;
 use App\Models\EmpresaModel;
 use App\Services\AuthService;
-use App\Services\Validator\TransacaoValidator;
+use App\Services\Transaction\TransacaoValidator;
 use App\Helpers\UrlHelper;
 use Core\Controller;
 

@@ -9,7 +9,7 @@ use App\Services\DatabaseService;
 use App\Services\EntityDataFetcher;
 use App\Services\Updater\EmpresaUpdater;
 use App\Services\Updater\FamiliaUpdater;
-use App\Services\Validator\TransacaoValidator;
+use App\Services\Transaction\TransacaoValidator;
 use Core\Controller;
 
 class GovernoController extends Controller
