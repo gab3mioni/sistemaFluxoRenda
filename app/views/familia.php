@@ -12,17 +12,14 @@
 <div class="container py-4">
 
 
-    <a class="mb-3 btn btn-primary" href="familia/logout">Sair</a>
+    <a class="nav-link" href="familia/logout">Sair</a>
 
 
     <div class="row mb-4">
         <div class="col-12">
             <div class="card bg-white">
-                <div class="card-header text-center">
-                    <h3>Saldo Atual</h3>
-                </div>
-
-                    <div class="card-body text-center">
+                <div class="card-body text-center">
+                    <h3 class="card-title">Saldo Atual</h3>
 
                     <p class="display-5">
                         <!-- NÃO MEXER NO CÓDIGO ABAIXO -->
