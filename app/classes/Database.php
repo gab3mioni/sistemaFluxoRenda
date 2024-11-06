@@ -1,9 +1,25 @@
 <?php
 
+/**
+ *
+ * Gerencia a conexão com o banco de dados
+ */
+
 class Database
 {
+    /**
+     * @var PDO Instância da conexão PDO com o banco de dados.
+     */
 	private $pdo;
-	
+
+    /**
+     * Construtor da classe
+     *
+     * Inicializa a conexão com o banco de dados utilizando as configurações
+     * definidas em config.php.
+     *
+     * @throws PDOException se a conexão com o banco de dados falhar.
+     */
 	public function __construct()
 	{
 		$config = require_once '../config/config.php';
@@ -14,10 +30,5 @@ class Database
 		} catch (PDOException $e) {
 			die('Conexão falha: ' . $e->getMessage());
 		}
-	}
-	
-	public function query($sql)
-	{
-		return $this->pdo->query($sql);
 	}
 }
