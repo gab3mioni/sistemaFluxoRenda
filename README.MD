@@ -1,7 +1,7 @@
 # Sistema Fluxo Renda
 
-Esse projeto está sendo desenvolvido para a matéria de Economia e Finanças, do 3°ADS/24, na FATEC Guaratinguetá - Prof. João Mod.
-O sistema deve simular o Fluxo Circular de Renda. Os grupos poderão interagir com os outros, simulando transações ecônomicas.
+Projeto desenvolvido para a matéria de Economia e Finanças, do 3°ADS/24, na FATEC Guaratinguetá - Prof. João Mod. 
+O sistema deve simular o Fluxo Circular de Renda. Os grupos poderão interagir com os outros, simulando transações econômicas.
 
 ## 🚀 Começando
 
